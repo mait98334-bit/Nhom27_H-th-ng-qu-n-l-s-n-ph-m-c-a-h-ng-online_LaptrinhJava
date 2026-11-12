@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Trị Hệ Thống Quản Lý Sản Phẩm Cửa Hàng Online — SiSi Shop</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Chart.js CDN for modern interactive analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo-icon">⚡</div>
+      <div>
+        <div class="sidebar-brand-name">SiSi Shop</div>
+        <div style="font-size: 0.7rem; color: #94a3b8; line-height: 1.2;">Quản lý sản phẩm</div>
+      </div>
+      <span class="sidebar-badge">Admin</span>
+    </div>
+
+    <div class="sidebar-menu">
+      <!-- 1. Bảng điều khiển (Dashboard) -->
+      <div class="menu-item active" onclick="switchAdminTab('dashboard', this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span>Bảng điều khiển (Dashboard)</span>
+      </div>
+
+      <!-- 2. Quản lý Sản phẩm -->
+      <div class="menu-item" onclick="switchAdminTab('products', this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        <span>Quản lý Sản phẩm</span>
+      </div>
+
+      <!-- 3. Quản lý Đơn hàng -->
+      <div class="menu-item" onclick="switchAdminTab('orders', this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span>Quản lý Đơn hàng</span>
+      </div>
+
+      <!-- 4. Quản lý Danh mục -->
+      <div class="menu-item" onclick="switchAdminTab('categories', this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+        <span>Quản lý Danh mục</span>
+      </div>
+
+      <!-- 5. Quản lý Thương hiệu -->
+      <div class="menu-item" onclick="switchAdminTab('brands', this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
+        <span>Quản lý Thương hiệu</span>
+      </div>
+
+      <!-- 6. Đánh giá & Bình luận -->
+      <div class="menu-item" onclick="switchAdminTab('reviews', this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+        <span>Đánh giá & Bình luận</span>
+      </div>
+
+      <!-- 7. Quản lý Bài viết -->
+      <div class="menu-item" onclick="switchAdminTab('posts', this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+        <span>Quản lý Bài viết</span>
+      </div>
+
+      <!-- 8. Bình luận Bài viết -->
+      <div class="menu-item" onclick="switchAdminTab('postComments', this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        <span>Bình luận Bài viết</span>
+      </div>
+
+      <!-- 9. Tài khoản Người dùng -->
+      <div class="menu-item" onclick="switchAdminTab('users', this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <span>Tài khoản Người dùng</span>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="admin-avatar">A</div>
+      <div class="admin-info">
+        <div class="admin-name" id="adminUserFullName">Admin Manager</div>
+        <div class="admin-role">● Quản trị viên cao cấp</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN WRAPPER ================= -->
+  <div class="main-wrapper">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="globalAdminSearch" placeholder="Tìm kiếm nhanh sản phẩm, danh mục..." oninput="handleGlobalSearch(this.value)">
+      </div>
+      <div class="topbar-actions">
+        <a href="index.html" class="btn-store">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Xem Cửa Hàng Client</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- CONTENT BODY -->
+    <main class="content-body">
+      <!-- HEADER TITLE -->
+      <div class="page-header">
+        <div class="page-title">
+          <h1 id="viewTitle">Bảng Điều Khiển Tổng Quan</h1>
+          <p id="viewSubtitle">Theo dõi doanh thu, phân tích dữ liệu và quản trị kho hàng theo thời gian thực.</p>
+        </div>
+        <div id="headerActionBtnArea">
+          <button class="btn-primary-action" onclick="openAddProductModal()">
+            <span>+</span> Thêm Sản Phẩm Mới
+          </button>
+        </div>
+      </div>
+
+      <!-- SECTION: DASHBOARD (CHARTS + SUMMARY) -->
+      <div id="tabDashboard">
+        <!-- 6 STAT BOXES TỔNG QUAN (CHỈ HIỂN THỊ Ở TAB DASHBOARD) -->
+        <div class="stat-grid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));">
+          <div class="stat-box">
+            <div class="stat-icon-wrap" style="background: #ecfdf5; color: #059669;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="stat-details">
+              <div class="stat-label">Doanh Thu Đã Thu</div>
+              <div class="stat-value" id="statRevenue" style="font-size: 1.35rem; color: #059669;">0 ₫</div>
+              <div class="stat-subtext">↑ VietQR & COD</div>
+            </div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-icon-wrap stat-icon-blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </div>
+            <div class="stat-details">
+              <div class="stat-label">Tổng Đơn Hàng</div>
+              <div class="stat-value" id="statOrders">0</div>
+              <div class="stat-subtext">Đã ghi nhận vào CSDL</div>
+            </div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-icon-wrap stat-icon-purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <div class="stat-details">
+              <div class="stat-label">Sản Phẩm Trong Kho</div>
+              <div class="stat-value" id="statProducts">0</div>
+              <div class="stat-subtext">↑ Đang mở bán</div>
+            </div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-icon-wrap stat-icon-amber">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            </div>
+            <div class="stat-details">
+              <div class="stat-label">Tổng Danh Mục</div>
+              <div class="stat-value" id="statCategories">0</div>
+              <div class="stat-subtext">Nhóm mặt hàng</div>
+            </div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-icon-wrap stat-icon-green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="stat-details">
+              <div class="stat-label">Tài Khoản User</div>
+              <div class="stat-value" id="statUsers">0</div>
+              <div class="stat-subtext">ADMIN & CUSTOMER</div>
+            </div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-icon-wrap" style="background: #eff6ff; color: #2563eb;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <div class="stat-details">
+              <div class="stat-label">Bài Viết & Tin Tức</div>
+              <div class="stat-value" id="statPosts">0</div>
+              <div class="stat-subtext">Đánh giá & Thủ thuật</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-title">Xu Hướng Doanh Số & Đơn Hàng (6 Tháng gần nhất)</span>
+              <span class="chart-badge">Tự động đồng bộ</span>
+            </div>
+            <div style="height: 280px; position: relative;">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-title">Cơ Cấu Sản Phẩm Theo Danh Mục</span>
+              <span class="chart-badge">Tỷ trọng</span>
+            </div>
+            <div style="height: 280px; position: relative; display: flex; align-items: center; justify-content: center;">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: ORDERS TABLE -->
+      <div id="tabOrders" class="panel-card" style="display: none;">
+        <div class="panel-card-header" style="flex-direction: column; align-items: stretch; gap: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div>
+              <div class="panel-title">Quản Lý Đơn Hàng & Vận Chuyển</div>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0 0;" id="orderFilterStatsText">
+                Đang hiển thị toàn bộ đơn hàng
+              </p>
+            </div>
+          </div>
+
+          <!-- BỘ LỌC ĐA TIÊU CHÍ CHO ĐƠN HÀNG -->
+          <div class="filter-toolbar-grid">
+            <!-- Ô TÌM KIẾM THEO MÃ ĐƠN, TÊN, SĐT -->
+            <div class="search-input-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="filterOrderSearch" placeholder="Tìm theo mã đơn (#101, DH101), người nhận, số điện thoại..." oninput="applyOrderFilters()">
+            </div>
+
+            <!-- LỌC TRẠNG THÁI ĐƠN -->
+            <select id="filterOrderStatus" class="filter-select" onchange="applyOrderFilters()">
+              <option value="all">Tất cả trạng thái đơn</option>
+              <option value="PENDING">Chờ xử lý (Pending)</option>
+              <option value="CONFIRMED">Đã xác nhận (Confirmed)</option>
+              <option value="SHIPPING">Đang giao hàng (Shipping)</option>
+              <option value="COMPLETED">Đã hoàn thành (Completed)</option>
+              <option value="CANCELLED">Đã hủy đơn (Cancelled)</option>
+            </select>
+
+            <!-- LỌC THANH TOÁN (PAID / UNPAID) -->
+            <select id="filterOrderPaymentStatus" class="filter-select" onchange="applyOrderFilters()">
+              <option value="all">Tất cả thanh toán</option>
+              <option value="PAID">Đã thanh toán (Paid)</option>
+              <option value="UNPAID">Chưa thanh toán (Unpaid)</option>
+            </select>
+
+            <!-- LỌC PHƯƠNG THỨC THANH TOÁN (COD / VIETQR) -->
+            <select id="filterOrderPaymentMethod" class="filter-select" onchange="applyOrderFilters()">
+              <option value="all">Tất cả phương thức</option>
+              <option value="COD">Tiền mặt khi nhận hàng (COD)</option>
+              <option value="VIETQR">Chuyển khoản VietQR</option>
+            </select>
+
+            <!-- SẮP XẾP ĐƠN HÀNG -->
+            <select id="sortOrderSelect" class="filter-select" onchange="applyOrderFilters()">
+              <option value="date_desc">Thời gian: Mới nhất</option>
+              <option value="date_asc">Thời gian: Cũ nhất</option>
+              <option value="total_desc">Giá trị: Cao đến thấp</option>
+              <option value="total_asc">Giá trị: Thấp đến cao</option>
+            </select>
+
+            <!-- NÚT RESET LỌC -->
+            <button class="btn-reset-filter" onclick="resetOrderFilters()" title="Đặt lại bộ lọc ban đầu">
+              <span>↻</span> Đặt lại
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Mã Đơn</th>
+                <th>Người Nhận & Địa Chỉ</th>
+                <th>Thời Gian</th>
+                <th>Thanh Toán</th>
+                <th>Tổng Tiền</th>
+                <th>Trạng Thái Đơn</th>
+                <th style="text-align: right;">Cập Nhật & Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="orderTableBody">
+              <tr><td colspan="7" style="text-align:center; padding: 2rem;">Đang tải đơn hàng...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: PRODUCTS TABLE -->
+      <div id="tabProducts" class="panel-card" style="display: none;">
+        <div class="panel-card-header" style="flex-direction: column; align-items: stretch; gap: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div>
+              <div class="panel-title">Quản Lý Sản Phẩm Trong Kho</div>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0 0;" id="productFilterStatsText">
+                Đang hiển thị toàn bộ sản phẩm
+              </p>
+            </div>
+            <button class="btn-primary-action" onclick="openAddProductModal()">
+              <span>+</span> Thêm Sản Phẩm Mới
+            </button>
+          </div>
+
+          <!-- BỘ LỌC ĐA TIÊU CHÍ (TÌM KIẾM, DANH MỤC, THƯƠNG HIỆU, TỒN KHO, MỨC GIÁ, SẮP XẾP) -->
+          <div class="filter-toolbar-grid">
+            <!-- Ô TÌM KIẾM -->
+            <div class="search-input-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="filterProductSearch" placeholder="Tìm theo tên sản phẩm, mã ID..." oninput="applyProductFilters()">
+            </div>
+
+            <!-- LỌC DANH MỤC -->
+            <select id="filterCategorySelect" class="filter-select" onchange="applyProductFilters()">
+              <option value="all">Tất cả danh mục</option>
+            </select>
+
+            <!-- LỌC THƯƠNG HIỆU -->
+            <select id="filterBrandSelect" class="filter-select" onchange="applyProductFilters()">
+              <option value="all">Tất cả thương hiệu</option>
+            </select>
+
+            <!-- LỌC TỒN KHO -->
+            <select id="filterProductStock" class="filter-select" onchange="applyProductFilters()">
+              <option value="all">Tất cả tồn kho</option>
+              <option value="in_stock">Còn hàng dồi dào (> 10 SP)</option>
+              <option value="low_stock">Sắp hết hàng (1 - 10 SP)</option>
+              <option value="out_of_stock">Đã hết hàng (0 SP)</option>
+            </select>
+
+            <!-- LỌC MỨC GIÁ -->
+            <select id="filterProductPrice" class="filter-select" onchange="applyProductFilters()">
+              <option value="all">Tất cả mức giá</option>
+              <option value="under_5m">Dưới 5 triệu</option>
+              <option value="5m_15m">Từ 5 - 15 triệu</option>
+              <option value="15m_30m">Từ 15 - 30 triệu</option>
+              <option value="over_30m">Trên 30 triệu</option>
+            </select>
+
+            <!-- SẮP XẾP -->
+            <select id="sortProductSelect" class="filter-select" onchange="applyProductFilters()">
+              <option value="default">Sắp xếp: Mới nhất trước (Mới → Cũ)</option>
+              <option value="oldest">Sắp xếp: Cũ nhất trước (Cũ → Mới)</option>
+              <option value="price_asc">Giá: Thấp đến cao</option>
+              <option value="price_desc">Giá: Cao đến thấp</option>
+              <option value="stock_desc">Tồn kho: Nhiều nhất</option>
+              <option value="stock_asc">Tồn kho: Ít nhất</option>
+              <option value="name_asc">Tên: A → Z</option>
+            </select>
+
+            <!-- NÚT RESET LỌC -->
+            <button class="btn-reset-filter" onclick="resetProductFilters()" title="Đặt lại bộ lọc ban đầu">
+              <span>↻</span> Đặt lại
+            </button>
+          </div>
+        </div>
+        <!-- PHÂN TRANG TRÊN (TOP) BẢNG SẢN PHẨM -->
+        <div id="productPaginationWrapTop" class="pagination-bar" style="border-bottom: 1px solid var(--border-color); border-top: 1px solid var(--border-color); background: #f8fafc; border-radius: 0;"></div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 110px; text-align: center; cursor: pointer; user-select: none;" onclick="toggleAdminProductSort('id')" title="Bấm để đổi chiều: Mới nhất ↔ Cũ nhất">
+                  <span style="display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
+                    <span>Mã ID</span>
+                    <span id="sortIconId" style="font-size: 0.82rem; color: #2563eb; font-weight: 800;">▼</span>
+                  </span>
+                </th>
+                <th>Sản phẩm</th>
+                <th>Danh mục & Hãng</th>
+                <th style="cursor: pointer; user-select: none;" onclick="toggleAdminProductSort('price')" title="Bấm để sắp xếp theo Giá">
+                  <span style="display: inline-flex; align-items: center; gap: 4px;">
+                    <span>Giá niêm yết</span>
+                    <span id="sortIconPrice" style="font-size: 0.75rem; color: #94a3b8;">↕</span>
+                  </span>
+                </th>
+                <th style="cursor: pointer; user-select: none;" onclick="toggleAdminProductSort('stock')" title="Bấm để sắp xếp theo Tồn kho">
+                  <span style="display: inline-flex; align-items: center; gap: 4px;">
+                    <span>Tồn kho</span>
+                    <span id="sortIconStock" style="font-size: 0.75rem; color: #94a3b8;">↕</span>
+                  </span>
+                </th>
+                <th>Thư viện ảnh</th>
+                <th style="text-align: right;">Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <tr><td colspan="7" style="text-align:center; padding: 2rem;">Đang tải dữ liệu...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- PHÂN TRANG BẢNG SẢN PHẨM -->
+        <div id="productPaginationWrap" class="pagination-bar"></div>
+      </div>
+
+      <!-- SECTION: CATEGORIES TABLE -->
+      <div id="tabCategories" class="panel-card" style="display: none;">
+        <div class="panel-card-header" style="flex-direction: column; align-items: stretch; gap: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div>
+              <div class="panel-title">Quản Lý Danh Mục Nhóm Hàng</div>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0 0;" id="categoryFilterStatsText">
+                Đang hiển thị toàn bộ danh mục
+              </p>
+            </div>
+            <button class="btn-primary-action" onclick="openAddCategoryModal()">
+              <span>+</span> Thêm Danh Mục Mới
+            </button>
+          </div>
+
+          <!-- BỘ LỌC TÌM KIẾM & TRẠNG THÁI DANH MỤC -->
+          <div class="filter-toolbar-grid">
+            <!-- Ô TÌM KIẾM TÊN DANH MỤC / MÃ ID -->
+            <div class="search-input-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="filterCategorySearch" placeholder="Tìm theo tên danh mục, mô tả, mã ID..." oninput="applyCategoryFilters()">
+            </div>
+
+            <!-- BỘ LỌC TRẠNG THÁI (ĐANG KINH DOANH / CHƯA CÓ SP) -->
+            <select id="filterCategoryStatus" class="filter-select" onchange="applyCategoryFilters()">
+              <option value="all">Tất cả danh mục</option>
+              <option value="has_products">Đang có sản phẩm kinh doanh</option>
+              <option value="empty_products">Danh mục trống (Chưa gán SP)</option>
+            </select>
+
+            <!-- SẮP XẾP DANH MỤC -->
+            <select id="sortCategorySelect" class="filter-select" onchange="applyCategoryFilters()">
+              <option value="default">Sắp xếp: Mặc định</option>
+              <option value="products_desc">Số lượng SP: Nhiều nhất</option>
+              <option value="products_asc">Số lượng SP: Ít nhất</option>
+              <option value="name_asc">Tên: A → Z</option>
+            </select>
+
+            <!-- NÚT RESET LỌC -->
+            <button class="btn-reset-filter" onclick="resetCategoryFilters()" title="Đặt lại bộ lọc ban đầu">
+              <span>↻</span> Đặt lại
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 80px;">Mã</th>
+                <th>Tên Danh Mục</th>
+                <th>Số Lượng SP</th>
+                <th>Trạng Thái</th>
+                <th>Mô Tả Chi Tiết</th>
+                <th style="text-align: right;">Hành Động</th>
+              </tr>
+            </thead>
+            <tbody id="categoryTableBody">
+              <tr><td colspan="6" style="text-align:center; padding: 2rem;">Đang tải dữ liệu...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: BRANDS TABLE -->
+      <div id="tabBrands" class="panel-card" style="display: none;">
+        <div class="panel-card-header" style="flex-direction: column; align-items: stretch; gap: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div>
+              <div class="panel-title">Quản Lý Thương Hiệu & Hãng Sản Xuất</div>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0 0;" id="brandFilterStatsText">
+                Đang hiển thị toàn bộ thương hiệu
+              </p>
+            </div>
+            <button class="btn-primary-action" onclick="openAddBrandModal()">
+              <span>+</span> Thêm Thương Hiệu Mới
+            </button>
+          </div>
+
+          <!-- BỘ LỌC TÌM KIẾM, TRẠNG THÁI & NGÀNH HÀNG -->
+          <div class="filter-toolbar-grid">
+            <!-- Ô TÌM KIẾM TÊN THƯƠNG HIỆU -->
+            <div class="search-input-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="filterBrandSearch" placeholder="Tìm theo tên hãng (Apple, Samsung...), ngành hàng, mã BR..." oninput="applyBrandFilters()">
+            </div>
+
+            <!-- LỌC TRẠNG THÁI ĐỐI TÁC -->
+            <select id="filterBrandStatus" class="filter-select" onchange="applyBrandFilters()">
+              <option value="all">Tất cả trạng thái đối tác</option>
+              <option value="STRATEGIC">Đối tác chiến lược (Strategic)</option>
+              <option value="ACTIVE">Chính hãng (Active)</option>
+              <option value="PAUSED">Tạm dừng nhập hàng (Paused)</option>
+            </select>
+
+            <!-- LỌC THEO NGÀNH HÀNG CHỦ LỰC -->
+            <select id="filterBrandCategorySelect" class="filter-select" onchange="applyBrandFilters()">
+              <option value="all">Tất cả ngành hàng</option>
+            </select>
+
+            <!-- SẮP XẾP THƯƠNG HIỆU -->
+            <select id="sortBrandSelect" class="filter-select" onchange="applyBrandFilters()">
+              <option value="default">Sắp xếp: Mặc định</option>
+              <option value="products_desc">Số lượng SP: Nhiều nhất</option>
+              <option value="products_asc">Số lượng SP: Ít nhất</option>
+              <option value="name_asc">Tên hãng: A → Z</option>
+            </select>
+
+            <!-- NÚT RESET LỌC -->
+            <button class="btn-reset-filter" onclick="resetBrandFilters()" title="Đặt lại bộ lọc ban đầu">
+              <span>↻</span> Đặt lại
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 70px;">STT</th>
+                <th>Thương Hiệu / Hãng</th>
+                <th>Số Lượng Sản Phẩm</th>
+                <th>Ngành Hàng Chủ Lực</th>
+                <th>Trạng Thái Hợp Tác</th>
+                <th style="text-align: right;">Hành Động</th>
+              </tr>
+            </thead>
+            <tbody id="brandTableBody">
+              <tr><td colspan="6" style="text-align:center; padding: 2rem;">Đang tải danh sách thương hiệu...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: REVIEWS TABLE -->
+      <div id="tabReviews" class="panel-card" style="display: none;">
+        <div class="panel-card-header" style="flex-direction: column; align-items: stretch; gap: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div>
+              <div class="panel-title">Quản Lý Đánh Giá & Phản Hồi Khách Hàng</div>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0 0;" id="reviewFilterStatsText">
+                Đang hiển thị toàn bộ đánh giá
+              </p>
+            </div>
+          </div>
+
+          <!-- BỘ LỌC TÌM KIẾM THEO TÊN KHÁCH HÀNG, SẢN PHẨM & SỐ SAO -->
+          <div class="filter-toolbar-grid">
+            <!-- Ô TÌM KIẾM TÊN KHÁCH HÀNG HOẶC TÊN SẢN PHẨM -->
+            <div class="search-input-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="filterReviewSearch" placeholder="Tìm theo tên sản phẩm, khách hàng, nội dung nhận xét..." oninput="applyReviewFilters()">
+            </div>
+
+            <!-- LỌC THEO SỐ SAO (CÓ ƯU TIÊN HIỂN THỊ SAO THẤP ĐỂ XỬ LÝ KHIẾU NẠI) -->
+            <select id="filterReviewRating" class="filter-select" onchange="applyReviewFilters()">
+              <option value="all">Tất cả số sao</option>
+              <option value="low_stars">Cảnh báo: 1 - 2 Sao (Cần xử lý khiếu nại)</option>
+              <option value="3">3 Sao (Bình thường)</option>
+              <option value="4">4 Sao (Tốt / Hài lòng)</option>
+              <option value="5">5 Sao (Xuất sắc / Đánh giá cao)</option>
+            </select>
+
+            <!-- SẮP XẾP ĐÁNH GIÁ -->
+            <select id="sortReviewSelect" class="filter-select" onchange="applyReviewFilters()">
+              <option value="date_desc">Thời gian: Mới nhất</option>
+              <option value="date_asc">Thời gian: Cũ nhất</option>
+              <option value="rating_asc">Số sao: Thấp nhất trước (Ưu tiên khiếu nại)</option>
+              <option value="rating_desc">Số sao: Cao nhất trước</option>
+            </select>
+
+            <!-- NÚT RESET LỌC -->
+            <button class="btn-reset-filter" onclick="resetReviewFilters()" title="Đặt lại bộ lọc ban đầu">
+              <span>↻</span> Đặt lại
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Sản phẩm</th>
+                <th>Khách hàng</th>
+                <th>Đánh giá sao</th>
+                <th>Nội dung nhận xét</th>
+                <th>Thời gian</th>
+                <th style="text-align: right;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="reviewTableBody">
+              <tr><td colspan="6" style="text-align:center; padding: 2rem;">Đang tải dữ liệu...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: USERS TABLE -->
+      <div id="tabUsers" class="panel-card" style="display: none;">
+        <div class="panel-card-header" style="flex-direction: column; align-items: stretch; gap: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div>
+              <div class="panel-title">Quản Lý Tài Khoản Người Dùng</div>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0 0;" id="userFilterStatsText">
+                Đang hiển thị toàn bộ tài khoản
+              </p>
+            </div>
+          </div>
+
+          <!-- BỘ LỌC TÌM KIẾM, PHÂN QUYỀN VÀ SẮP XẾP TÀI KHOẢN -->
+          <div class="filter-toolbar-grid">
+            <!-- Ô TÌM KIẾM USERNAME, HỌ TÊN HOẶC EMAIL -->
+            <div class="search-input-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="filterUserSearch" placeholder="Tìm theo username, họ tên, email..." oninput="applyUserFilters()">
+            </div>
+
+            <!-- LỌC PHÂN QUYỀN (ROLE) -->
+            <select id="filterUserRole" class="filter-select" onchange="applyUserFilters()">
+              <option value="all">Tất cả phân quyền</option>
+              <option value="ADMIN">Quản trị viên (ADMIN)</option>
+              <option value="CUSTOMER">Khách hàng (CUSTOMER)</option>
+            </select>
+
+            <!-- SẮP XẾP TÀI KHOẢN -->
+            <select id="sortUserSelect" class="filter-select" onchange="applyUserFilters()">
+              <option value="id_desc">ID: Mới nhất (Giảm dần)</option>
+              <option value="id_asc">ID: Cũ nhất (Tăng dần)</option>
+              <option value="name_asc">Họ tên / Tên đăng nhập: A → Z</option>
+              <option value="name_desc">Họ tên / Tên đăng nhập: Z → A</option>
+            </select>
+
+            <!-- NÚT RESET LỌC -->
+            <button class="btn-reset-filter" onclick="resetUserFilters()" title="Đặt lại bộ lọc ban đầu">
+              <span>↻</span> Đặt lại
+            </button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 80px;">ID</th>
+                <th>Tên đăng nhập</th>
+                <th>Họ và tên</th>
+                <th>Địa chỉ Email</th>
+                <th>Vai trò hiện tại</th>
+                <th style="text-align: right;">Cập nhật vai trò</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody">
+              <tr><td colspan="6" style="text-align:center; padding: 2rem;">Đang tải dữ liệu...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: POSTS TABLE -->
+      <div id="tabPosts" class="panel-card" style="display: none;">
+        <div class="panel-card-header" style="flex-direction: column; align-items: stretch; gap: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div>
+              <div class="panel-title">Quản Lý Bài Viết & Tin Tức Công Nghệ</div>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0 0;" id="postFilterStatsText">
+                Đang hiển thị toàn bộ bài viết
+              </p>
+            </div>
+            <button class="btn-primary-action" onclick="openAddPostModal()">
+              <span>+</span> Viết Bài Mới
+            </button>
+          </div>
+
+          <!-- BỘ LỌC TÌM KIẾM, CHUYÊN MỤC, TRẠNG THÁI VÀ SẮP XẾP BÀI VIẾT -->
+          <div class="filter-toolbar-grid">
+            <!-- Ô TÌM KIẾM THEO TIÊU ĐỀ HOẶC TÁC GIẢ -->
+            <div class="search-input-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="filterPostSearch" placeholder="Tìm theo tiêu đề bài viết, tác giả, tóm tắt..." oninput="applyPostFilters()">
+            </div>
+
+            <!-- LỌC THEO CHUYÊN MỤC -->
+            <select id="filterPostCategorySelect" class="filter-select" onchange="applyPostFilters()">
+              <option value="all">Tất cả chuyên mục</option>
+              <option value="Đánh giá công nghệ">Đánh giá công nghệ</option>
+              <option value="So sánh công nghệ">So sánh công nghệ</option>
+              <option value="Tư vấn mua sắm">Tư vấn mua sắm</option>
+              <option value="Thủ thuật công nghệ">Thủ thuật công nghệ</option>
+              <option value="Tin tức khuyến mãi">Tin tức khuyến mãi</option>
+            </select>
+
+            <!-- LỌC THEO TRẠNG THÁI XUẤT BẢN -->
+            <select id="filterPostStatusSelect" class="filter-select" onchange="applyPostFilters()">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="PUBLISHED">Đã xuất bản (Công khai)</option>
+              <option value="DRAFT">Bản nháp (Đang viết dở)</option>
+            </select>
+
+            <!-- SẮP XẾP BÀI VIẾT -->
+            <select id="sortPostSelect" class="filter-select" onchange="applyPostFilters()">
+              <option value="date_desc">Ngày đăng: Mới nhất</option>
+              <option value="date_asc">Ngày đăng: Cũ nhất</option>
+              <option value="views_desc">Lượt xem: Nhiều nhất (Hot)</option>
+              <option value="title_asc">Tiêu đề: A → Z</option>
+            </select>
+
+            <!-- NÚT RESET LỌC -->
+            <button class="btn-reset-filter" onclick="resetPostFilters()" title="Đặt lại bộ lọc ban đầu">
+              <span>↻</span> Đặt lại
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 70px;">Ảnh</th>
+                <th>Tiêu đề bài viết</th>
+                <th>Chuyên mục</th>
+                <th>Tác giả</th>
+                <th>Ngày đăng</th>
+                <th>Lượt xem</th>
+                <th>Trạng thái</th>
+                <th>Bình luận</th>
+                <th style="text-align: right;">Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="postTableBody">
+              <tr><td colspan="9" style="text-align:center; padding: 2rem;">Đang tải danh sách bài viết...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: POST COMMENTS TABLE -->
+      <div id="tabPostComments" class="panel-card" style="display: none;">
+        <div class="panel-card-header" style="flex-direction: column; align-items: stretch; gap: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div>
+              <div class="panel-title">Quản Lý Bình Luận Bài Viết</div>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0 0;" id="postCommentFilterStatsText">
+                Đang hiển thị toàn bộ bình luận
+              </p>
+            </div>
+          </div>
+
+          <!-- BỘ LỌC TÌM KIẾM, LỌC THEO BÀI VIẾT VÀ SẮP XẾP BÌNH LUẬN -->
+          <div class="filter-toolbar-grid">
+            <!-- Ô TÌM KIẾM THEO NỘI DUNG HOẶC TÊN NGƯỜI BÌNH LUẬN -->
+            <div class="search-input-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="filterPostCommentSearch" placeholder="Tìm theo nội dung bình luận, người gửi, email..." oninput="applyPostCommentFilters()">
+            </div>
+
+            <!-- LỌC THEO BÀI VIẾT CỤ THỂ -->
+            <select id="filterPostCommentSelect" class="filter-select" style="max-width: 320px;" onchange="applyPostCommentFilters()">
+              <option value="all">Tất cả bài viết</option>
+            </select>
+
+            <!-- SẮP XẾP BÌNH LUẬN -->
+            <select id="sortPostCommentSelect" class="filter-select" onchange="applyPostCommentFilters()">
+              <option value="date_desc">Thời gian: Mới nhất</option>
+              <option value="date_asc">Thời gian: Cũ nhất</option>
+              <option value="name_asc">Người gửi: A → Z</option>
+            </select>
+
+            <!-- NÚT RESET LỌC -->
+            <button class="btn-reset-filter" onclick="resetPostCommentFilters()" title="Đặt lại bộ lọc ban đầu">
+              <span>↻</span> Đặt lại
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Người gửi</th>
+                <th>Email</th>
+                <th>Thuộc bài viết</th>
+                <th>Nội dung bình luận</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th style="text-align: right;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="postCommentTableBody">
+              <tr><td colspan="7" style="text-align:center; padding: 2rem;">Đang tải danh sách bình luận...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ================= MODAL: SẢN PHẨM ================= -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-box">
+      <div class="modal-box-header">
+        <h3 id="productModalTitle">Thêm Sản Phẩm Mới</h3>
+        <button class="modal-close-icon" onclick="closeAdminModal('productModal')">&times;</button>
+      </div>
+      <form id="formProduct" onsubmit="saveProduct(event)">
+        <div class="modal-body">
+          <input type="hidden" id="prodId">
+          <div class="admin-form-group">
+            <label>Tên sản phẩm (*)</label>
+            <input type="text" id="prodName" class="admin-input" placeholder="Ví dụ: iPhone 16 Pro Max..." required>
+          </div>
+          <div class="form-row-2">
+            <div class="admin-form-group">
+              <label>Danh mục (*)</label>
+              <select id="prodCategory" class="admin-select" required></select>
+            </div>
+            <div class="admin-form-group">
+              <label>Thương hiệu / Hãng (*)</label>
+              <select id="prodBrand" class="admin-select" required>
+                <option value="">-- Chọn thương hiệu --</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="admin-form-group">
+              <label>Giá niêm yết (VNĐ) (*)</label>
+              <input type="number" id="prodPrice" class="admin-input" placeholder="Ví dụ: 29990000" min="0" required oninput="calculateDiscountPricePreview()">
+            </div>
+            <div class="admin-form-group">
+              <label>% Giảm giá (Sale 0 - 100%)</label>
+              <input type="number" id="prodDiscountPercent" class="admin-input" placeholder="Ví dụ: 15 (để 0 nếu không giảm)" min="0" max="100" value="0" oninput="calculateDiscountPricePreview()">
+            </div>
+          </div>
+
+          <!-- HIỂN THỊ XEM TRƯỚC GIÁ SAU GIẢM (TỰ ĐỘNG TÍNH TOÁN) -->
+          <div id="priceDiscountPreviewBox" style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: space-between;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">
+              <span>Giá bán thực tế (sau khi giảm):</span>
+            </div>
+            <div style="font-weight: 800; font-size: 1.1rem; color: #dc2626;" id="prodFinalPriceText">
+              0 ₫
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="admin-form-group">
+              <label>Số lượng kho (*)</label>
+              <input type="number" id="prodQuantity" class="admin-input" placeholder="50" min="0" required>
+            </div>
+            <div class="admin-form-group">
+              <label>Lượt đã bán (Sold count)</label>
+              <input type="number" id="prodSoldQuantity" class="admin-input" placeholder="0" min="0" value="0">
+              <small style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-top: 2px;">
+                Đạt từ 10 lượt sẽ tự động gắn nhãn HOT
+              </small>
+            </div>
+          </div>
+
+          <!-- KHỐI QUẢN LÝ THUỘC TÍNH SẢN PHẨM & BIẾN THỂ (MÀU SẮC, DUNG LƯỢNG) -->
+          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border: 1.5px solid #86efac; border-radius: 12px; padding: 1.1rem; margin-bottom: 1.2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 6px;">
+              <span style="font-weight: 800; font-size: 0.92rem; color: #166534; display: flex; align-items: center; gap: 6px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                THUỘC TÍNH SẢN PHẨM & BIẾN THỂ (Màu sắc, Dung lượng, RAM/ROM)
+              </span>
+              <span style="font-size: 0.75rem; background: #bbf7d0; color: #14532d; font-weight: 700; padding: 2px 8px; border-radius: 9999px;">Đồng bộ Giỏ hàng & Chi tiết SP</span>
+            </div>
+
+            <div class="form-row-2">
+              <div class="admin-form-group" style="margin-bottom: 0.4rem;">
+                <label style="font-weight: 700; color: #166534;">🎨 Các phiên bản Màu sắc (cách nhau dấu phẩy):</label>
+                <input type="text" id="prodColors" class="admin-input" style="background: #ffffff; border-color: #86efac; font-weight: 500;" placeholder="VD: Titan Tự Nhiên, Titan Đen, Titan Xanh, Titan Trắng" oninput="previewAdminVariantChips()">
+                <small style="font-size: 0.74rem; color: #15803d; display: block; margin-top: 3px;">
+                  Nhập các màu, cách nhau dấu phẩy. Khách sẽ bấm chọn chip này khi mua.
+                </small>
+                <div id="adminColorChipsPreview" style="display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px;"></div>
+              </div>
+
+              <div class="admin-form-group" style="margin-bottom: 0.4rem;">
+                <label style="font-weight: 700; color: #166534;">💾 Dung lượng / Phiên bản (cách nhau dấu phẩy):</label>
+                <input type="text" id="prodStorageOptions" class="admin-input" style="background: #ffffff; border-color: #86efac; font-weight: 500;" placeholder="VD: 128GB, 256GB, 512GB, 1TB" oninput="previewAdminVariantChips()">
+                <small style="font-size: 0.74rem; color: #15803d; display: block; margin-top: 3px;">
+                  VD: 128GB, 256GB, 512GB hoặc 8GB/256GB, 16GB/512GB...
+                </small>
+                <div id="adminStorageChipsPreview" style="display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px;"></div>
+              </div>
+            </div>
+          </div>
+          <!-- KHỐI QUẢN LÝ NHIỀU ẢNH SẢN PHẨM (ALBUM ẢNH) -->
+          <div class="admin-form-group" style="background: #f8fafc; border: 1px dashed #94a3b8; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 6px;">
+              <label style="font-weight: 700; color: #1e293b; margin: 0; display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>Album & Thư Viện Ảnh Sản Phẩm (Hỗ trợ tải nhiều ảnh)</span>
+              </label>
+              <span id="formImagesCountBadge" style="background: #e2e8f0; color: #475569; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 9999px;">
+                0 ảnh
+              </span>
+            </div>
+
+            <!-- Các nút chọn nhiều ảnh từ máy tính & nhập link -->
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap;">
+              <input type="file" id="prodMultiImagesFileInput" accept="image/*" multiple style="display: none;" onchange="handleProductMultiFilesSelected(event)">
+              <button type="button" class="btn-save" style="background: #2563eb; padding: 8px 14px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" onclick="document.getElementById('prodMultiImagesFileInput').click()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span>📷 Chọn Nhiều Ảnh Từ Máy Tính</span>
+              </button>
+              <span style="font-size: 0.8rem; color: #64748b;">(Giữ phím <b>Ctrl</b> hoặc <b>Shift</b> để chọn cùng lúc nhiều ảnh)</span>
+              <div id="productFormUploadProgress" style="font-size: 0.82rem; font-weight: 600; color: #2563eb; display: none;"></div>
+            </div>
+
+            <!-- Nhập link URL thủ công (hỗ trợ nhiều link) -->
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <input type="text" id="prodMultiUrlInput" class="admin-input" placeholder="Hoặc dán link ảnh online (hỗ trợ nhiều link cách nhau bởi dấu phẩy)..." style="flex: 1; font-size: 0.85rem;">
+              <button type="button" class="btn-cancel" style="white-space: nowrap; padding: 8px 12px; font-weight: 600;" onclick="handleAddUrlToFormImages()">
+                + Thêm Link
+              </button>
+            </div>
+            
+            <input type="hidden" id="prodImageUrl">
+
+            <!-- Vùng hiển thị xem trước danh sách nhiều ảnh đã chọn -->
+            <div id="productFormImagesPreviewGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-top: 1rem;">
+              <!-- Danh sách ảnh xem trước render bằng JS -->
+            </div>
+          </div>
+          <div class="admin-form-group">
+            <label>Mô tả chi tiết sản phẩm</label>
+            <textarea id="prodDescription" class="admin-textarea" rows="3" placeholder="Nhập cấu hình, đặc điểm nổi bật..."></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeAdminModal('productModal')">Hủy bỏ</button>
+            <button type="submit" class="btn-save">Lưu Thông Tin</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: DANH MỤC ================= -->
+  <div class="modal-overlay" id="categoryModal">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-box-header">
+        <h3>Thêm Danh Mục Nhóm Hàng</h3>
+        <button class="modal-close-icon" onclick="closeAdminModal('categoryModal')">&times;</button>
+      </div>
+      <form onsubmit="saveCategory(event)">
+        <div class="modal-body">
+          <div class="admin-form-group">
+            <label>Tên danh mục (*)</label>
+            <input type="text" id="catName" class="admin-input" placeholder="Ví dụ: Thiết bị thông minh..." required>
+          </div>
+          <div class="admin-form-group">
+            <label>Mô tả nhóm sản phẩm</label>
+            <textarea id="catDescription" class="admin-textarea" rows="3" placeholder="Giới thiệu về nhóm hàng..."></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeAdminModal('categoryModal')">Hủy</button>
+            <button type="submit" class="btn-save">Tạo Danh Mục</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: THƯƠNG HIỆU ================= -->
+  <div class="modal-overlay" id="brandModal">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-box-header">
+        <h3 id="brandModalTitle">Thêm Thương Hiệu Mới</h3>
+        <button class="modal-close-icon" onclick="closeAdminModal('brandModal')">&times;</button>
+      </div>
+      <form onsubmit="saveBrand(event)">
+        <div class="modal-body">
+          <input type="hidden" id="brandEditId">
+          <div class="admin-form-group">
+            <label>Tên Thương Hiệu / Hãng (*)</label>
+            <input type="text" id="brandNameInput" class="admin-input" placeholder="Ví dụ: Apple, Samsung, Sony, Marshall..." required>
+          </div>
+          <div class="admin-form-group">
+            <label>Ngành hàng chủ lực</label>
+            <input type="text" id="brandCategoryInput" class="admin-input" placeholder="Ví dụ: Điện thoại, Laptop, Phụ kiện...">
+          </div>
+          <div class="admin-form-group">
+            <label>Trạng thái hợp tác (*)</label>
+            <select id="brandStatusInput" class="admin-select" required>
+              <option value="ACTIVE">Chính hãng (Đang kinh doanh)</option>
+              <option value="STRATEGIC">Đối tác chiến lược / Top Sale</option>
+              <option value="PAUSED">Tạm dừng nhập hàng</option>
+            </select>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeAdminModal('brandModal')">Hủy</button>
+            <button type="submit" class="btn-save">Lưu Thương Hiệu</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: QUẢN LÝ GALLERY ẢNH ================= -->
+  <div class="modal-overlay" id="imagesModal">
+    <div class="modal-box" style="max-width: 680px;">
+      <div class="modal-box-header">
+        <h3 id="imagesModalTitle">Quản Lý Thư Viện Ảnh (ProductImage)</h3>
+        <button class="modal-close-icon" onclick="closeAdminModal('imagesModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 6px;">
+            <label style="font-weight: 700; font-size: 0.9rem; color: var(--text-primary); margin: 0;">
+              📷 Thêm nhiều ảnh mới vào Gallery sản phẩm:
+            </label>
+            <span style="font-size: 0.78rem; color: #64748b;">(Hỗ trợ chọn 5, 10, 20 ảnh cùng lúc từ máy tính)</span>
+          </div>
+
+          <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.8rem;">
+            <input type="file" id="galleryImageFileInput" accept="image/*" multiple style="display: none;" onchange="uploadMultipleGalleryImages(event)">
+            <button type="button" class="btn-save" style="background: #2563eb; white-space: nowrap; padding: 9px 16px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" onclick="document.getElementById('galleryImageFileInput').click()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span>Chọn & Tải Nhiều Ảnh Từ Máy</span>
+            </button>
+            <div id="galleryUploadStatusText" style="font-size: 0.82rem; font-weight: 600; color: #2563eb;"></div>
+          </div>
+
+          <div style="display: flex; gap: 0.8rem; align-items: center;">
+            <input type="text" id="newImageUrlInput" class="admin-input" placeholder="Hoặc dán các link ảnh online (cách nhau bởi dấu phẩy)..." style="flex: 1;">
+            <button type="button" class="btn-cancel" style="white-space: nowrap; padding: 8px 14px; font-weight: 700;" onclick="addNewProductImagesFromInput()">+ Thêm Link</button>
+          </div>
+        </div>
+
+        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">
+          Các góc ảnh hiện tại của sản phẩm:
+        </h4>
+        <div id="productImagesList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 1rem;">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: BÀI VIẾT ================= -->
+  <div class="modal-overlay" id="postModal">
+    <div class="modal-box" style="max-width: 760px;">
+      <div class="modal-box-header">
+        <h3 id="postModalTitle">Viết Bài Mới</h3>
+        <button class="modal-close-icon" onclick="closeAdminModal('postModal')">&times;</button>
+      </div>
+      <form id="formPost" onsubmit="savePost(event)">
+        <div class="modal-body">
+          <input type="hidden" id="postId">
+          <div class="admin-form-group">
+            <label>Tiêu đề bài viết (*)</label>
+            <input type="text" id="postTitleInput" class="admin-input" placeholder="Ví dụ: Đánh giá chi tiết iPhone 16 Pro Max..." required>
+          </div>
+          <div class="form-row-2">
+            <div class="admin-form-group">
+              <label>Chuyên mục (*)</label>
+              <select id="postCategorySelect" class="admin-select" required>
+                <option value="Đánh giá công nghệ">Đánh giá công nghệ</option>
+                <option value="So sánh công nghệ">So sánh công nghệ</option>
+                <option value="Tư vấn mua sắm">Tư vấn mua sắm</option>
+                <option value="Thủ thuật công nghệ">Thủ thuật công nghệ</option>
+                <option value="Tin tức khuyến mãi">Tin tức khuyến mãi</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label>Tác giả</label>
+              <input type="text" id="postAuthorInput" class="admin-input" placeholder="Ví dụ: Ban biên tập SiSi Tech">
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="admin-form-group">
+              <label>Trạng thái xuất bản (*)</label>
+              <select id="postStatusSelect" class="admin-select" required>
+                <option value="PUBLISHED">Công khai (Hiển thị ngay)</option>
+                <option value="DRAFT">Bản nháp (Ẩn)</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label>Ảnh bìa bài viết (Thumbnail)</label>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="text" id="postThumbnailInput" class="admin-input" placeholder="Dán link ảnh hoặc tải từ máy..." style="flex: 1;" oninput="updatePostThumbPreview(this.value)">
+                <input type="file" id="postThumbnailFileInput" accept="image/*" style="display: none;" onchange="uploadPostThumbnail(event)">
+                <button type="button" class="btn-cancel" style="white-space: nowrap; padding: 8px 12px; font-weight: 600;" onclick="document.getElementById('postThumbnailFileInput').click()">
+                  Tải từ máy
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="postThumbPreviewArea" style="margin-bottom: 12px; display: none;">
+            <img id="postThumbPreviewImg" src="" style="width: 120px; height: 75px; object-fit: cover; border-radius: 8px; border: 1px solid #cbd5e1;">
+          </div>
+          <div class="admin-form-group">
+            <label>Đoạn tóm tắt mở đầu (Summary)</label>
+            <textarea id="postSummaryInput" class="admin-textarea" rows="2" placeholder="Tóm tắt ngắn gọn nội dung bài viết..."></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label>Nội dung chi tiết bài viết (Hỗ trợ HTML: &lt;p&gt;, &lt;h3&gt;, &lt;blockquote&gt;...) (*)</label>
+            <textarea id="postContentInput" class="admin-textarea" rows="8" placeholder="Nhập nội dung bài viết chi tiết..." required></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeAdminModal('postModal')">Hủy bỏ</button>
+            <button type="submit" class="btn-save">Lưu Bài Viết</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="js/config.js?v=2"></script>
+  <script src="js/admin.js?v=2"></script>
+</body>
+</html>

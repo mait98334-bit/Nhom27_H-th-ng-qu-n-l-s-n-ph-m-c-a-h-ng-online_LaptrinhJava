@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh Toán & Đặt Hàng — Hệ thống quản lý sản phẩm cửa hàng online</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+    .checkout-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 2rem;
+    }
+    .payment-option {
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.2s;
+    }
+    .payment-option.selected {
+      border-color: var(--primary-color);
+      background: #eff6ff;
+    }
+    .vietqr-box {
+      background: #f8fafc;
+      border: 2px dashed #3b82f6;
+      border-radius: var(--radius-md);
+      padding: 1.8rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .qr-img {
+      max-width: 260px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">SISI</span>
+        <span class="brand-text-wrap">
+          <span class="brand-name">TECH<span>STORE</span></span>
+          <span class="brand-tag">Online Retail</span>
+        </span>
+      </a>
+      <div class="nav-actions">
+        <a href="index.html" class="nav-btn" style="color: var(--text-muted);">← Tiếp tục mua sắm</a>
+        <a href="orders.html" class="nav-btn" style="border: 1px solid var(--border-color);">📦 Đơn mua của tôi</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CHECKOUT -->
+  <main class="container">
+    <div id="checkoutMainSection">
+      <h1 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">Tiến Hành Đặt Hàng & Thanh Toán</h1>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Vui lòng kiểm tra lại thông tin nhận hàng và giỏ hàng trước khi xác nhận.</p>
+
+      <div class="checkout-grid">
+        <!-- LEFT: FORM THÔNG TIN GIAO HÀNG & PHƯƠNG THỨC -->
+        <div>
+          <!-- THÔNG TIN NGƯỜI NHẬN -->
+          <div class="checkout-card">
+            <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+              <span>📍</span> 1. Thông tin giao hàng
+            </h2>
+            <form id="formCheckout" onsubmit="handlePlaceOrder(event)">
+              <div class="form-group">
+                <label class="form-label">Họ và tên người nhận (*)</label>
+                <input type="text" id="orderReceiverName" class="form-control" placeholder="Ví dụ: Nguyễn Văn A" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Số điện thoại (*)</label>
+                <input type="tel" id="orderReceiverPhone" class="form-control" placeholder="Ví dụ: 0912345678" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Địa chỉ nhận hàng chi tiết (*)</label>
+                <input type="text" id="orderShippingAddress" class="form-control" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành..." required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Ghi chú giao hàng (Tùy chọn)</label>
+                <textarea id="orderNotes" class="form-control" rows="2" placeholder="Giao giờ hành chính, gọi trước khi đến..."></textarea>
+              </div>
+
+              <!-- PHƯƠNG THỨC THANH TOÁN -->
+              <h2 style="font-size: 1.2rem; font-weight: 700; margin: 2rem 0 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span>💳</span> 2. Chọn phương thức thanh toán
+              </h2>
+
+              <div class="payment-option selected" id="optCOD" onclick="selectPaymentMethod('COD')">
+                <input type="radio" name="payMethod" value="COD" checked>
+                <div>
+                  <strong style="display: block; font-size: 1rem;">💵 Thanh toán khi nhận hàng (COD)</strong>
+                  <span style="font-size: 0.85rem; color: var(--text-muted);">Thanh toán bằng tiền mặt trực tiếp cho shipper khi nhận được hàng.</span>
+                </div>
+              </div>
+
+              <div class="payment-option" id="optVIETQR" onclick="selectPaymentMethod('VIETQR')">
+                <input type="radio" name="payMethod" value="VIETQR">
+                <div>
+                  <strong style="display: block; font-size: 1rem; color: #2563eb;">🏦 Chuyển khoản qua mã VietQR (Tự động)</strong>
+                  <span style="font-size: 0.85rem; color: var(--text-muted);">Quét mã QR từ ứng dụng ngân hàng bất kỳ (MB, Vietcombank, Momo...) có sẵn số tiền & nội dung.</span>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-buy" style="margin-top: 1.5rem; width: 100%; padding: 1.1rem; font-size: 1.1rem;" id="btnPlaceOrder">
+                Xác Nhận Đặt Hàng Ngay ➔
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- RIGHT: TÓM TẮT ĐƠN HÀNG -->
+        <div>
+          <div class="checkout-card" style="position: sticky; top: 100px;">
+            <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.2rem;">Tóm tắt đơn hàng</h2>
+            <div id="checkoutItemsList" style="max-height: 320px; overflow-y: auto; margin-bottom: 1.2rem;">
+              <!-- Items loaded from cart -->
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.95rem;">
+                <span>Tạm tính:</span>
+                <span id="checkoutSubtotal" style="font-weight: 600;">0 ₫</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.95rem; color: #059669;">
+                <span>Phí vận chuyển:</span>
+                <span style="font-weight: 600;">Miễn phí (0 ₫)</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-top: 2px dashed var(--border-color); padding-top: 0.8rem; font-size: 1.25rem; font-weight: 800; color: #dc2626;">
+                <span>Tổng thanh toán:</span>
+                <span id="checkoutGrandTotal">0 ₫</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER SUCCESS & VIETQR SECTION (Ban đầu ẩn) -->
+    <div id="orderSuccessSection" style="display: none; max-width: 650px; margin: 3rem auto;">
+      <div class="checkout-card" style="text-align: center;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+        <h2 style="font-size: 1.8rem; font-weight: 800; color: #059669;">Đặt Hàng Thành Công!</h2>
+        <p style="color: var(--text-muted); margin-top: 0.4rem;">
+          Cảm ơn bạn đã tin tưởng mua sắm tại SiSi Shop. Đơn hàng của bạn đã được ghi nhận trên hệ thống.
+        </p>
+
+        <div style="background: #f8fafc; border-radius: 12px; padding: 1.2rem; margin: 1.5rem 0; text-align: left; font-size: 0.95rem; border: 1px solid var(--border-color);">
+          <div style="margin-bottom: 0.4rem;"><strong>Mã đơn hàng:</strong> <span id="successOrderId" style="color: #2563eb; font-weight: 700;">#DH--</span></div>
+          <div style="margin-bottom: 0.4rem;"><strong>Người nhận:</strong> <span id="successReceiver">--</span></div>
+          <div style="margin-bottom: 0.4rem;"><strong>Số điện thoại:</strong> <span id="successPhone">--</span></div>
+          <div style="margin-bottom: 0.4rem;"><strong>Địa chỉ giao:</strong> <span id="successAddress">--</span></div>
+          <div style="margin-bottom: 0.4rem;"><strong>Phương thức:</strong> <span id="successPaymentMethod" style="font-weight: 700;">--</span></div>
+          <div style="font-size: 1.15rem; color: #dc2626; font-weight: 800; margin-top: 0.6rem; border-top: 1px solid var(--border-color); padding-top: 0.6rem;">
+            <strong>Tổng số tiền:</strong> <span id="successTotal">0 ₫</span>
+          </div>
+        </div>
+
+        <!-- HỘP MÃ QR NẾU CHỌN VIETQR -->
+        <div id="vietqrContainer" style="display: none;" class="vietqr-box">
+          <h3 style="font-size: 1.15rem; color: #2563eb; font-weight: 800;">Quét mã VietQR để thanh toán</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">
+            Mở app ngân hàng bất kỳ để quét mã (Hệ thống tự động điền số tiền và nội dung chuyển khoản).
+          </p>
+
+          <img id="vietqrImage" src="" class="qr-img" alt="Mã VietQR thanh toán">
+
+          <div style="text-align: left; background: white; padding: 1rem; border-radius: 8px; font-size: 0.88rem; margin-top: 0.8rem; border: 1px solid #bfdbfe;">
+            <div><strong>Ngân hàng:</strong> <span id="qrBankName">MB Bank</span></div>
+            <div><strong>Số tài khoản:</strong> <span id="qrAccountNo" style="font-family: monospace; font-weight: 700; color: #1e40af;">0333888999</span></div>
+            <div><strong>Chủ tài khoản:</strong> <span id="qrAccountName">CONG TY TNHH SISI SHOP</span></div>
+            <div><strong>Số tiền:</strong> <span id="qrAmount" style="color: #dc2626; font-weight: 700;">0 ₫</span></div>
+            <div><strong>Nội dung CK:</strong> <span id="qrMemo" style="background: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: 700;">SISI DH...</span></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <a href="index.html" class="nav-btn" style="flex: 1; text-align: center; border: 1px solid var(--border-color);">Tiếp tục mua hàng</a>
+          <a href="orders.html" class="btn-buy" style="flex: 1; text-align: center; text-decoration: none;">Xem lịch sử đơn mua ➔</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

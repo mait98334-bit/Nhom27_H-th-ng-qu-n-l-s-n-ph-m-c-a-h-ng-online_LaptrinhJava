@@ -1,0 +1,730 @@
+================================================================================
+BỘ GIÁO DỤC VÀ ĐÀO TẠO
+TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN
+KHOA CÔNG NGHỆ PHẦN MỀM
+--------------------------------------------------------------------------------
+
+BÁO CÁO ĐỒ ÁN MÔN HỌC: LẬP TRÌNH JAVA
+ĐỀ TÀI: XÂY DỰNG HỆ THỐNG WEBSITE THƯƠNG MẠI ĐIỆN TỬ BÁN HÀNG CÔNG NGHỆ SISITECHSTORE
+
+Sinh viên thực hiện:  [Họ và tên sinh viên]
+Mã số sinh viên:      [Mã số sinh viên]
+Lớp:                  [Mã lớp]
+Giảng viên hướng dẫn: [Họ và tên Thầy/Cô hướng dẫn]
+
+Hà Nội, Năm 2026
+
+================================================================================
+MỤC LỤC
+================================================================================
+CHƯƠNG 1: TỔNG QUAN VÀ CƠ SỞ LÝ THUYẾT NỀN TẢNG
+  1.1. Bối cảnh và Tính cấp thiết của đề tài
+  1.2. Mục tiêu nghiên cứu và Phạm vi ứng dụng
+  1.3. Cơ sở lý thuyết chuyên sâu
+    1.3.1. Hệ sinh thái Spring Boot 3.x
+    1.3.2. Kiến trúc RESTful Web Services & Tiêu chuẩn API
+    1.3.3. Cơ chế ánh xạ quan hệ đối tượng Spring Data JPA & Hibernate
+    1.3.4. Hệ thống an ninh phân tầng Spring Security & Chuẩn OAuth2
+    1.3.5. Cổng thanh toán tài chính VietQR Napas247
+    1.3.6. Công nghệ giao diện người dùng và Thư viện phân tích dữ liệu Chart.js
+  1.4. Bảng tổng hợp công nghệ sử dụng trong đồ án
+
+CHƯƠNG 2: PHÂN TÍCH YÊU CẦU VÀ MÔ HÌNH HÓA USE CASE
+  2.1. Yêu cầu chức năng chi tiết theo phân quyền
+  2.2. Yêu cầu phi chức năng
+  2.3. Mô hình Use Case tổng thể và Đặc tả luồng nghiệp vụ chi tiết
+    2.3.1. Phân rã Use Case theo nhóm tác nhân
+    2.3.2. Đặc tả chi tiết Use Case UC01: Đặt hàng & Thanh toán trực tuyến
+    2.3.3. Đặc tả chi tiết Use Case UC02: Quản lý danh mục & Biến thể sản phẩm
+
+CHƯƠNG 3: THIẾT KẾ KIẾN TRÚC VÀ CƠ SỞ DỮ LIỆU
+  3.1. Thiết kế kiến trúc tổng thể 3 tầng chuẩn Spring
+  3.2. Thiết kế mô hình dữ liệu quan hệ (ERD)
+  3.3. Từ điển dữ liệu chi tiết (Data Dictionary - 10 bảng)
+    3.3.1. Bảng users & user_roles
+    3.3.2. Bảng categories & brands
+    3.3.3. Bảng products & product_images
+    3.3.4. Bảng orders & order_details
+    3.3.5. Bảng reviews, posts & post_comments
+  3.4. Thiết kế và Đặc tả chi tiết hệ thống RESTful API (18 Endpoints)
+
+CHƯƠNG 4: HIỆN THỰC HÓA VÀ CÀI ĐẶT HỆ THỐNG
+  4.1. Cấu trúc tổ chức mã nguồn và Phân chia Packages
+  4.2. Hiện thực cơ chế An ninh và Xác thực người dùng
+  4.3. Hiện thực hóa nghiệp vụ Giỏ hàng và Xử lý đơn hàng
+  4.4. Tích hợp thanh toán trực tuyến quét mã VietQR Napas247
+  4.5. Phân tích số liệu và Trực quan hóa Dashboard quản trị bằng Chart.js
+
+CHƯƠNG 5: KIỂM THỬ HỆ THỐNG VÀ ĐÁNH GIÁ CHẤT LƯỢNG
+  5.1. Kế hoạch và Phương pháp kiểm thử
+  5.2. Bảng ma trận kịch bản kiểm thử chi tiết (15 Test Cases tiêu biểu)
+  5.3. Đánh giá chất lượng và Biện pháp bảo mật phòng chống lỗ hổng OWASP
+
+CHƯƠNG 6: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+  6.1. Kết quả đạt được so với mục tiêu ban đầu
+  6.2. Những hạn chế còn tồn tại
+  6.3. Định hướng mở rộng và Phát triển đề tài trong tương lai
+
+TÀI LIỆU THAM KHẢO
+
+================================================================================
+CHƯƠNG 1: TỔNG QUAN VÀ CƠ SỞ LÝ THUYẾT NỀN TẢNG
+================================================================================
+
+1.1. BỐI CẢNH VÀ TÍNH CẤP THIẾT CỦA ĐỀ TÀI
+Trong kỷ nguyên chuyển đổi số và sự bùng nổ của nền kinh tế internet, thương mại điện tử (E-Commerce) đã trở thành một hạ tầng giao thương cốt lõi không thể thiếu đối với mọi doanh nghiệp bán lẻ. Đặc biệt trong phân khúc thiết bị công nghệ và điện máy tiêu dùng (điện thoại thông minh, máy tính bảng, phụ kiện âm thanh, thiết bị đeo thông minh), nhu cầu mua sắm trực tuyến của người tiêu dùng ngày càng đòi hỏi sự tiện lợi, thông tin trực quan, khả năng tùy biến phiên bản (màu sắc, dung lượng) và trải nghiệm thanh toán tức thời không chạm.
+
+Tuy nhiên, các mô hình bán hàng truyền thống bộc lộ nhiều điểm nghẽn nghiêm trọng: quy trình bán lẻ thủ công dẫn đến sai lệch tồn kho, độ trễ cao trong đối soát công nợ, quản lý thông tin khách hàng rời rạc và chi phí vận hành mặt bằng lớn. Nhằm giải quyết các bài toán trên, việc nghiên cứu và xây dựng một hệ thống website thương mại điện tử chuyên biệt "SiSiTechStore" ứng dụng các công nghệ tiên tiến trên nền tảng Java Enterprise, Spring Boot Framework, cơ chế lưu trữ quan hệ chuẩn hóa và tích hợp thanh toán tài chính tự động VietQR Napas247 là hết sức cấp thiết, đáp ứng cả tiêu chí học thuật chuyên sâu và khả năng ứng dụng thực tiễn cao.
+
+1.2. MỤC TIÊU NGHIÊN CỨU VÀ PHẠM VI ỨNG DỤNG
+- Mục tiêu tổng quát: Thiết kế và hoàn thiện hệ sinh thái ứng dụng Web bán hàng công nghệ trực tuyến khép kín, hoạt động theo mô hình Client-Server hiện đại, đáp ứng đầy đủ các tiêu chuẩn kiến trúc phần mềm, bảo mật dữ liệu và hiệu năng xử lý.
+- Mục tiêu cụ thể:
+  1. Phân tích và thiết kế mô hình cơ sở dữ liệu quan hệ đạt chuẩn dạng chuẩn 3 (3NF) gồm 10 thực thể chính, bảo toàn tính toàn vẹn tham chiếu và tối ưu hóa chỉ mục (Indexes).
+  2. Xây dựng tầng Backend theo mô hình phân tầng chuẩn mực (Controller - Service - Repository) bằng Java 17 và Spring Boot 3.x, cung cấp hệ thống RESTful API phong phú chuẩn REST specification.
+  3. Hiện thực hóa hệ thống phân quyền an ninh RBAC (Role-Based Access Control) với Spring Security 6, cơ chế băm mật khẩu chuẩn quân sự BCrypt và giải pháp đăng nhập xã hội Google OAuth2.
+  4. Triển khai phương thức thanh toán số thế hệ mới VietQR Napas247 qua API VietQR.io, tự động nhúng mã đơn hàng và số tiền giao dịch chính xác.
+  5. Thiết kế giao diện Frontend đáp ứng (Responsive UI/UX) chuẩn công nghệ HTML5, CSS3 hiện đại, tối ưu trải nghiệm người dùng trên mọi độ phân giải màn hình.
+  6. Xây dựng trung tâm điều hành Dashboard Admin chuyên nghiệp tích hợp thư viện biểu đồ trực quan hóa dữ liệu Chart.js phục vụ báo cáo doanh thu và hành vi khách hàng.
+- Phạm vi ứng dụng: Hệ thống phục vụ việc vận hành kinh doanh bán lẻ đa kênh các mặt hàng công nghệ tại cửa hàng SiSiTechStore, hỗ trợ khách hàng cá nhân đặt mua trực tuyến và ban quản trị điều hành toàn bộ quy trình kho hàng, tài chính và tiếp thị.
+
+1.3. CƠ SỞ LÝ THUYẾT CHUYÊN SÂU
+
+1.3.1. HỆ SINH THÁI SPRING BOOT 3.X
+Spring Boot là framework mã nguồn mở xây dựng dựa trên lõi Spring Framework (Pivotal Software / VMware Tanzu), được thiết kế nhằm đơn giản hóa tối đa quy trình khởi tạo, cấu hình và triển khai ứng dụng Java cấp doanh nghiệp (Enterprise Applications).
+- Nguyên lý Đảo ngược điều khiển (IoC - Inversion of Control) và Tiêm phụ thuộc (DI - Dependency Injection):
+  Trong kiến trúc truyền thống, một đối tượng (Object) thường chủ động khởi tạo và quản lý vòng đời của các đối tượng phụ thuộc bên trong nó thông qua toán tử 'new'. Cách làm này tạo ra sự kết dính chặt (Tight Coupling) giữa các tầng, gây khó khăn cho việc bảo trì, tái sử dụng và kiểm thử đơn vị (Unit Test). Spring IoC Container giải quyết triệt để vấn đề này bằng cách nắm giữ toàn bộ quyền kiểm soát việc khởi tạo, liên kết và quản lý vòng đời của các Beans. Thông qua cơ chế DI (hỗ trợ qua Constructor Injection, Setter Injection hoặc Field Injection với @Autowired), Spring tự động tiêm các dependencies cần thiết vào đối tượng khi thực thi, tạo ra sự liên kết lỏng (Loose Coupling).
+- Vòng đời của một Bean trong Spring Container (Bean Lifecycle):
+  Bao gồm các giai đoạn tuần tự: Khởi tạo thực thể (Instantiation) -> Nạp giá trị thuộc tính (Populate Properties) -> Gọi các BeanPostProcessor tiền xử lý (@PostConstruct) -> Gọi phương thức khởi tạo nghiệp vụ (InitializingBean / init-method) -> Sẵn sàng phục vụ (In-Service) -> Hủy bỏ khi tắt container (@PreDestroy / DisposableBean).
+- Cơ chế Auto-Configuration:
+  Spring Boot sở hữu tính năng cấu hình tự động thông minh thông qua việc quét cấu trúc thư mục (Classpath Scanning) và các chú thích điều kiện (@ConditionalOnClass, @ConditionalOnMissingBean, @ConditionalOnProperty). Ví dụ: khi phát hiện thư viện 'spring-boot-starter-data-jpa' và driver 'mysql-connector-j' trong classpath, framework tự động thiết lập DataSource, EntityManagerFactory và TransactionManager mà lập trình viên không cần viết hàng trăm dòng cấu hình XML phức tạp.
+- Mô hình kiến trúc luồng xử lý Spring MVC (DispatcherServlet):
+  Mọi yêu cầu HTTP gửi đến ứng dụng đều đi qua bộ điều phối trung tâm Front Controller (DispatcherServlet). DispatcherServlet tham khảo HandlerMapping để xác định Controller phù hợp, chuyển tiếp yêu cầu đến phương thức nghiệp vụ, nhận lại ModelAndView hoặc DTO (đối với @RestController), và sử dụng HttpMessageConverter (Jackson ObjectMapper) để chuyển hóa dữ liệu thành chuỗi JSON trả về cho Client.
+
+1.3.2. KIẾN TRÚC RESTFUL WEB SERVICES & TIÊU CHUẨN API
+REST (Representational State Transfer) là phong cách kiến trúc phần mềm cho các hệ thống phân tán được đề xuất bởi Roy Fielding trong luận án tiến sĩ năm 2000. Một hệ thống RESTful đạt chuẩn cần tuân thủ 6 nguyên tắc cốt lõi:
+1. Kiến trúc Client-Server độc lập: Tách biệt hoàn toàn giữa giao diện người dùng và hạ tầng lưu trữ xử lý dữ liệu.
+2. Không lưu trạng thái (Statelessness): Mỗi yêu cầu từ Client gửi lên Server phải chứa đầy đủ mọi thông tin cần thiết để Server hiểu và xử lý, Server không lưu trữ session ngữ cảnh của Client qua các request.
+3. Khả năng lưu bộ nhớ đệm (Cacheability): Mọi phản hồi phải tự định nghĩa rõ ràng liệu nó có thể được lưu trữ cache hay không nhằm tăng tốc truy cập mạng.
+4. Giao diện thống nhất (Uniform Interface): Các tài nguyên được định danh duy nhất qua URI (Uniform Resource Identifier), thao tác qua các phương thức HTTP chuẩn và sử dụng các biểu diễn tài nguyên tự mô tả (Self-descriptive messages).
+5. Hệ thống phân tầng (Layered System): Client không thể biết nó đang kết nối trực tiếp với Server cuối hay đi qua các tầng trung gian (Load Balancers, API Gateways, Caching Proxies).
+6. Mã nguồn theo yêu cầu (Code on Demand - Tùy chọn).
+- Chuẩn hóa các phương thức HTTP (HTTP Methods):
+  - GET: Truy vấn và đọc dữ liệu, có tính chất an toàn (Safe) và lũy biến (Idempotent).
+  - POST: Tạo mới một tài nguyên trên hệ thống, không có tính chất lũy biến.
+  - PUT: Cập nhật toàn bộ hoặc thay thế một tài nguyên hiện hữu, có tính chất lũy biến.
+  - PATCH: Cập nhật cục bộ một số trường dữ liệu của tài nguyên.
+  - DELETE: Xóa một tài nguyên khỏi hệ thống, có tính chất lũy biến.
+- Chuẩn hóa mã trạng thái HTTP (HTTP Status Codes):
+  - 200 OK: Xử lý thành công và trả về dữ liệu.
+  - 201 Created: Tạo mới tài nguyên thành công.
+  - 204 No Content: Thực hiện thành công nhưng phản hồi không chứa thân body (thường dùng cho DELETE).
+  - 400 Bad Request: Dữ liệu gửi lên sai định dạng hoặc vi phạm ràng buộc DTO validation.
+  - 401 Unauthorized: Chưa xác thực danh tính người dùng.
+  - 403 Forbidden: Đã xác thực nhưng tài khoản không có quyền truy cập tài nguyên.
+  - 404 Not Found: Không tìm thấy tài nguyên theo định danh URI.
+  - 409 Conflict: Xảy ra xung đột trạng thái dữ liệu (ví dụ trùng khóa duy nhất, trùng email).
+  - 500 Internal Server Error: Lỗi ngoại lệ chưa được xử lý tại tầng logic máy chủ.
+- Chuẩn trao đổi dữ liệu JSON và Thư viện Jackson:
+  JavaScript Object Notation (JSON) là chuẩn trao đổi dữ liệu gọn nhẹ, dễ đọc đối với con người và máy tính. Spring Boot sử dụng thư viện Jackson làm bộ chuyển đổi mặc định, tự động tuần tự hóa (Serialization - từ Java Object sang JSON String) và giải tuần tự hóa (Deserialization - từ JSON String sang Java POJO) thông qua các Annotation mạnh mẽ như @JsonProperty, @JsonIgnore, @JsonFormat.
+
+1.3.3. CƠ CHẾ ÁNH XẠ QUAN HỆ ĐỐI TƯỢNG SPRING DATA JPA & HIBERNATE
+- Khái niệm ORM (Object-Relational Mapping):
+  ORM là kỹ thuật lập trình cho phép chuyển đổi và ánh xạ các cấu trúc dữ liệu không tương thích giữa hệ thống lập trình hướng đối tượng (Java Classes, Objects) và hệ quản trị cơ sở dữ liệu quan hệ (RDBMS Tables, Foreign Keys). Lập trình viên có thể tương tác với cơ sở dữ liệu hoàn toàn bằng các đối tượng Java thuần túy thay vì viết các câu lệnh SQL thô phức tạp.
+- Chuẩn JPA (Java Persistence API / Jakarta Persistence) và Hibernate ORM:
+  JPA là bộ thông số kỹ thuật (Specification) định nghĩa các giao diện và quy tắc chuẩn cho việc quản lý dữ liệu trong Java. Hibernate là một bộ cài đặt triển khai (Implementation) phổ biến và hoàn chỉnh nhất của JPA. Trong đồ án, Spring Data JPA đóng vai trò tầng trừu tượng hóa bậc cao phía trên Hibernate, cung cấp các Repository Interfaces (JpaRepository, CrudRepository) với khả năng tự sinh câu truy vấn thông qua tên phương thức (Query Methods: ví dụ findByEmail, findByCategory_Id) hoặc thông qua cú pháp JPQL / Native SQL với @Query.
+- Vòng đời thực thể trong JPA (Entity Lifecycle):
+  Một thực thể JPA trải qua 4 trạng thái quản lý chính:
+  1. Transient: Đối tượng mới khởi tạo bằng toán tử 'new', chưa liên kết với Persistence Context và chưa có định danh ID trong CSDL.
+  2. Persistent / Managed: Đối tượng đã liên kết với EntityManager hiện hành, mọi thay đổi trên thuộc tính của đối tượng sẽ được tự động đồng bộ hóa xuống CSDL khi Transaction commit (Dirty Checking).
+  3. Detached: Đối tượng từng ở trạng thái Managed nhưng Persistence Context đã đóng lại; các thay đổi sẽ không tự động cập nhật xuống CSDL trừ khi gọi phương thức merge().
+  4. Removed: Đối tượng đã được đánh dấu để xóa khỏi cơ sở dữ liệu khi commit Transaction.
+- Thuộc tính giao dịch ACID và Cơ chế Quản lý Transaction:
+  Mọi thao tác ghi dữ liệu nhạy cảm (như Đặt hàng: trừ kho -> tạo hóa đơn -> lưu chi tiết đơn hàng) đều được bao bọc trong annotation @Transactional của Spring nhằm đảm bảo nghiêm ngặt 4 thuộc tính ACID:
+  - Atomicity (Tính nguyên tử): Tất cả các thao tác thành công trọn vẹn, hoặc nếu có một thao tác thất bại thì toàn bộ quá trình sẽ được hoàn tác (Rollback) về trạng thái ban đầu.
+  - Consistency (Tính nhất quán): Dữ liệu luôn chuyển dịch từ một trạng thái hợp lệ này sang trạng thái hợp lệ khác, không vi phạm bất kỳ ràng buộc toàn vẹn nào.
+  - Isolation (Tính độc lập): Các giao dịch thực thi đồng thời không được can thiệp hay nhìn thấy dữ liệu trung gian chưa commit của nhau.
+  - Durability (Tính bền vững): Sau khi giao dịch đã commit thành công, dữ liệu được ghi nhận vĩnh viễn trong CSDL ngay cả khi hệ thống gặp sự cố mất điện.
+- Cơ chế quản lý kết nối HikariCP Connection Pool:
+  Spring Boot tích hợp mặc định HikariCP - thư viện quản lý hồ kết nối CSDL (Connection Pool) siêu nhẹ, hiệu năng cực cao và tối ưu độ trễ microsecond. HikariCP duy trì sẵn một số lượng kết nối kết nối sống tới MySQL, giúp giảm thiểu chi phí bắt tay TCP và khởi tạo phiên làm việc tốn kém cho mỗi yêu cầu HTTP.
+
+1.3.4. HỆ THỐNG AN NINH PHÂN TẦNG SPRING SECURITY & CHUẨN OAUTH2
+- Chuỗi lọc an ninh (Security Filter Chain):
+  Spring Security hoạt động dựa trên cơ chế chặn bắt yêu cầu thông qua chuỗi các bộ lọc Servlet Filters được tổ chức tuần tự (SecurityFilterChain). Mỗi yêu cầu đi vào đều phải vượt qua hàng loạt các Filter: CsrfFilter, CorsFilter, UsernamePasswordAuthenticationFilter, BearerTokenAuthenticationFilter, SecurityContextHolderAwareRequestFilter và FilterSecurityInterceptor. Nếu bất kỳ bộ lọc nào phát hiện vi phạm, yêu cầu sẽ bị từ chối ngay lập tức mà không thể tiếp cận đến tầng Controller.
+- Mô hình Xác thực (Authentication) và Phân quyền (Authorization):
+  - Xác thực: Quá trình xác minh danh tính của người dùng (User là ai?). AuthenticationManager ủy thác cho DaoAuthenticationProvider gọi CustomUserDetailsService để tải đối tượng UserDetails từ CSDL MySQL và kiểm tra mật khẩu.
+  - Phân quyền: Quá trình xác định quyền hạn của người dùng đã xác thực (User được phép làm gì?). Hệ thống sử dụng mô hình RBAC để bảo vệ các tài nguyên: các URL tiền tố '/api/admin/**' chỉ dành cho người dùng mang quyền 'ROLE_ADMIN', trong khi các URL thông thường dành cho 'ROLE_CUSTOMER'.
+- Thuật toán băm mật khẩu chuẩn quân sự BCrypt:
+  BCrypt là hàm băm mật khẩu một chiều được thiết kế dựa trên thuật toán mã hóa Blowfish của Niels Provos và David Mazières. Điểm vượt trội của BCrypt so với MD5 hay SHA-256 là cơ chế tự động kết hợp muối ngẫu nhiên (Salt generation) và hệ số độ phức tạp chi phí tính toán (Work Factor / Cost: cấu hình mức 12). Điều này khiến việc tấn công vét cạn (Brute-force) hay tra cứu bảng cầu vồng (Rainbow Table Attack) trở nên bất khả thi về mặt thời gian và tài nguyên phần cứng.
+- Chuẩn giao thức đăng nhập xã hội Google OAuth2 (Authorization Code Flow):
+  OAuth2 là chuẩn ủy quyền mở cho phép ứng dụng bên thứ ba truy cập tài nguyên của người dùng mà không cần biết mật khẩu của họ. Trong đồ án, quy trình diễn ra theo Authorization Code Grant:
+  1. Người dùng bấm chọn "Đăng nhập với Google", trình duyệt chuyển hướng đến Google Authorization Server.
+  2. Người dùng đồng ý cấp quyền truy cập thông tin định danh (profile, email).
+  3. Google chuyển hướng ngược về URL Callback của hệ thống kèm theo một mã ủy quyền tạm thời (Authorization Code).
+  4. Máy chủ Spring Boot gửi Authorization Code cùng Client ID / Client Secret trực tiếp sang Google Token Endpoint qua kênh bảo mật HTTPS để đổi lấy Access Token và ID Token.
+  5. Hệ thống trích xuất thông tin email, họ tên, tự động kích hoạt tài khoản hoặc tạo mới người dùng tương ứng trong CSDL và thiết lập phiên đăng nhập hợp lệ.
+
+1.3.5. CỔNG THANH TOÁN TÀI CHÍNH VIETQR NAPAS247
+VietQR là nhận diện thương hiệu chung dành cho dịch vụ thanh toán, chuyển khoản bằng mã phản hồi nhanh (QR Code) được xử lý qua mạng lưới Napas (Công ty Cổ phần Thanh toán Quốc gia Việt Nam) và các ngân hàng thành viên.
+- Nguyên lý hoạt động:
+  Mã VietQR tuân thủ nghiêm ngặt tiêu chuẩn EMVCo quốc tế. Chuỗi dữ liệu mã hóa bao gồm các trường thông tin chuẩn hóa: Mã định danh ngân hàng thụ hưởng (BIN - Bank Identification Number, ví dụ MBBank là 970422), Số tài khoản ngân hàng nhận tiền, Số tiền giao dịch chính xác (Transaction Amount) và Nội dung thanh toán (Nội dung chuyển khoản chứa mã đơn hàng: ví dụ SISI1024).
+- Ứng dụng trong đồ án:
+  Hệ thống SiSiTechStore tích hợp API tạo mã trực tuyến từ cổng VietQR.io. Khi khách hàng xác nhận đặt hàng với phương thức "Chuyển khoản VietQR", hệ thống lập tức khởi tạo mã giao dịch duy nhất, tính toán tổng tiền thanh toán và hiển thị giao diện Modal mã QR chuẩn Napas247. Khách hàng chỉ cần sử dụng ứng dụng Ngân hàng số bất kỳ (App Mobile Banking) quét mã, mọi thông tin về số tài khoản, tên chủ thụ hưởng, số tiền và nội dung chuyển khoản đều được tự động điền sẵn 100%, loại bỏ hoàn toàn sai sót thủ công của người mua.
+
+1.3.6. CÔNG NGHỆ GIAO DIỆN NGƯỜI DÙNG VÀ THƯ VIỆN PHÂN TÍCH DỮ LIỆU CHART.JS
+- Kiến trúc giao diện Frontend:
+  Giao diện người dùng được xây dựng trên nền tảng HTML5 ngữ nghĩa (Semantic HTML5) kết hợp CSS3 Flexbox và Grid Layout, đảm bảo giao diện thích ứng mượt mà (Responsive Web Design) trên tất cả các loại màn hình thiết bị từ Desktop, Tablet đến Smartphone. Các thành phần tương tác động (giỏ hàng thời gian thực, lọc sản phẩm theo mức giá, danh mục và thương hiệu, gửi bình luận đánh giá) được xử lý bằng JavaScript thuần (ES6+) bất đồng bộ thông qua Fetch API / AJAX, giúp nâng cao tốc độ phản hồi và không cần tải lại toàn bộ trang web.
+- Thư viện biểu đồ phân tích dữ liệu Chart.js:
+  Chart.js là thư viện biểu đồ mã nguồn mở mạnh mẽ dựa trên nền tảng HTML5 Canvas. Trong phân hệ quản trị Admin của SiSiTechStore, Chart.js được khai thác để vẽ biểu đồ đường (Line Chart) biểu diễn xu hướng biến động doanh thu theo từng tháng trong năm, và biểu đồ hình tròn (Doughnut Chart) trực quan hóa tỷ lệ phân bổ cơ cấu đơn hàng theo từng trạng thái (Chờ xác nhận, Đang xử lý, Đang giao hàng, Hoàn tất, Đã hủy). Dữ liệu được máy chủ Spring Boot tổng hợp qua các truy vấn SQL thống kê tối ưu và cung cấp dưới dạng REST API JSON.
+
+1.4. BẢNG TỔNG HỢP CÔNG NGHỆ SỬ DỤNG TRONG ĐỒ ÁN
+Dưới đây là bảng phân loại và liệt kê chi tiết các công nghệ cốt lõi được ứng dụng trong quá trình phát triển hệ thống SiSiTechStore:
+- Tầng Backend:
+  + Ngôn ngữ lập trình: Java Development Kit (JDK) 17 LTS (Phiên bản hỗ trợ dài hạn, tối ưu hiệu năng bộ nhớ và Garbage Collection).
+  + Khung ứng dụng chính: Spring Boot Framework 3.2.x (Kiến trúc phân tầng Controller-Service-Repository).
+  + Truy cập dữ liệu: Spring Data JPA kết hợp Hibernate ORM 6.x.
+  + Bảo mật và phân quyền: Spring Security 6.x kết hợp BCrypt Password Encoder và Google OAuth2 Client.
+  + Công cụ quản lý dự án: Apache Maven 3.9.x (Quản lý các gói phụ thuộc và quy trình đóng gói Build JAR).
+- Tầng Cơ sở dữ liệu:
+  + Hệ quản trị CSDL: MySQL Server Community Edition 8.0.x (Cơ sở dữ liệu quan hệ mã nguồn mở phổ biến nhất).
+  + Quản lý hồ kết nối: HikariCP 5.x (Hiệu năng cao, tối ưu tài nguyên máy chủ).
+- Tầng Frontend:
+  + Ngôn ngữ giao diện: HTML5 Semantic, CSS3 hiện đại, JavaScript hiện đại (ECMAScript 2021+).
+  + Thư viện biểu đồ: Chart.js 4.4.x (Thống kê và trực quan hóa dữ liệu kinh doanh trên Canvas).
+  + Thư viện biểu tượng: Font Awesome 6.x & Bootstrap Icons (Hệ thống icon vector sắc nét).
+- Tích hợp dịch vụ bên thứ ba:
+  + Dịch vụ tài chính số: VietQR Napas247 (API khởi tạo mã QR thanh toán ngân hàng tự động).
+  + Dịch vụ định danh: Google Cloud Console OAuth 2.0 Identity Platform.
+
+
+================================================================================
+CHƯƠNG 2: PHÂN TÍCH YÊU CẦU VÀ MÔ HÌNH HÓA USE CASE
+================================================================================
+
+2.1. YÊU CẦU CHỨC NĂNG CHI TIẾT THEO PHÂN QUYỀN
+Hệ thống SiSiTechStore phân định rõ ràng quyền hạn và phạm vi tác vụ thành 3 nhóm tác nhân chính:
+
+1. Khách vãng lai (Guest):
+- Xem trang chủ, duyệt danh sách sản phẩm nổi bật, sản phẩm mới và sản phẩm khuyến mãi.
+- Tìm kiếm sản phẩm theo từ khóa tên hoặc mô tả.
+- Bộ lọc nâng cao: Lọc sản phẩm theo khoảng giá, theo danh mục ngành hàng (Điện thoại, Laptop, Phụ kiện...) và theo thương hiệu (Apple, Samsung, Sony...).
+- Xem chi tiết sản phẩm: Xem album ảnh, thông số kỹ thuật, giá bán, biến thể màu sắc và dung lượng bộ nhớ.
+- Đọc tin tức công nghệ và các bài viết đánh giá thủ thuật.
+- Đăng ký tài khoản khách hàng mới hoặc Đăng nhập hệ thống (Mật khẩu thông thường hoặc Google OAuth2).
+
+2. Khách hàng đã đăng nhập (Customer):
+- Kế thừa toàn bộ quyền hạn của Khách vãng lai.
+- Quản lý giỏ hàng: Thêm sản phẩm vào giỏ, điều chỉnh số lượng mua, chọn phiên bản dung lượng/màu sắc, xóa sản phẩm khỏi giỏ hàng.
+- Quy trình thanh toán (Checkout): Nhập thông tin người nhận, địa chỉ giao nhận chi tiết, ghi chú đơn hàng.
+- Chọn phương thức thanh toán: Thanh toán tiền mặt khi nhận hàng (COD) hoặc Chuyển khoản ngân hàng tức thời qua VietQR Napas247.
+- Theo dõi lịch sử đơn hàng cá nhân: Tra cứu danh sách các đơn hàng đã mua, xem chi tiết từng đơn hàng và trạng thái vận chuyển thời gian thực. (Chỉ xem được đơn hàng của chính tài khoản mình).
+- Đánh giá và bình luận sản phẩm: Gửi xếp hạng sao (1 đến 5 sao) và viết nhận xét trải nghiệm sau khi mua sắm.
+- Bình luận và thảo luận tại các bài viết chuyên mục Tin công nghệ.
+- Quản lý hồ sơ cá nhân: Cập nhật thông tin họ tên, số điện thoại, đổi mật khẩu.
+
+3. Quản trị viên hệ thống (Administrator):
+- Đăng nhập phân hệ quản trị Admin với tài khoản đặc quyền.
+- Quản trị bảng điều khiển (Dashboard): Giám sát tổng doanh thu tích lũy, số lượng đơn hàng, số người dùng đăng ký, biểu đồ biến động doanh thu 12 tháng và biểu đồ tỷ lệ trạng thái đơn hàng.
+- Quản lý danh mục (Category Management): Thêm, sửa, xóa, tìm kiếm danh mục sản phẩm.
+- Quản lý thương hiệu (Brand Management): Thêm, sửa, xóa các nhãn hàng đối tác.
+- Quản lý sản phẩm (Product Management): Thêm sản phẩm mới, upload nhiều hình ảnh mô tả, quản lý biến thể dung lượng/màu sắc, điều chỉnh giá bán niêm yết và số lượng tồn kho.
+- Quản lý đơn hàng (Order Management): Xem danh sách toàn bộ đơn hàng của tất cả khách hàng trên hệ thống, lọc đơn theo trạng thái, cập nhật trạng thái đơn hàng (Chờ xác nhận -> Đang xử lý -> Đang giao hàng -> Đã hoàn thành / Đã hủy).
+- Quản lý người dùng (User Management): Danh sách tài khoản người dùng, phân quyền vai trò (Admin / Customer), khóa hoặc kích hoạt tài khoản.
+- Quản lý nội dung tin tức (Post Management): Soạn thảo và xuất bản bài viết công nghệ, kiểm duyệt các bình luận của người dùng.
+
+2.2. YÊU CẦU PHI CHỨC NĂNG
+- Tính khả dụng và Hiệu năng (Performance & Availability): Hệ thống đảm bảo thời gian phản hồi (Response Time) trung bình dưới 500ms cho các tác vụ truy vấn thông thường; hỗ trợ khả năng phục vụ đồng thời hàng trăm người dùng truy cập.
+- Tính an toàn và Bảo mật (Security): Mật khẩu người dùng bắt buộc được mã hóa một chiều bằng BCrypt; kiểm soát truy cập nghiêm ngặt bằng Spring Security; vô hiệu hóa các nguy cơ tấn công SQL Injection thông qua Hibernate Parameterized Queries; chống XSS bằng cách mã hóa đầu ra; chống CSRF trên các endpoint nhạy cảm.
+- Tính toàn vẹn dữ liệu (Data Integrity): Thiết lập đầy đủ các khóa ngoại (Foreign Keys) và quy tắc ràng buộc toàn vẹn tham chiếu trong MySQL; áp dụng giao dịch nguyên tử @Transactional cho các nghiệp vụ thanh toán và trừ kho hàng.
+- Tính mở rộng và Khả năng bảo trì (Maintainability & Scalability): Cấu trúc mã nguồn phân lớp rõ ràng, tuân thủ nguyên lý thiết kế SOLID; dễ dàng tích hợp thêm các cổng thanh toán mới (VNPay, MoMo, ZaloPay) hoặc nâng cấp hạ tầng Microservices khi cần thiết.
+
+2.3. MÔ HÌNH HÓA VÀ ĐẶC TẢ USE CASE CHI TIẾT
+
+2.3.1. BẢNG PHÂN RÃ CHỨC NĂNG THEO TÁC NHÂN
+- Tác nhân Khách vãng lai (Guest):
+  + Đăng ký tài khoản (Đăng ký tài khoản thành viên mới qua biểu mẫu hệ thống).
+  + Đăng nhập hệ thống (Xác thực qua Username/Password hoặc nút Google OAuth2).
+  + Duyệt và Tìm kiếm sản phẩm (Xem danh mục, tìm theo từ khóa, lọc theo giá và thương hiệu).
+  + Xem chi tiết sản phẩm (Xem thông số, ảnh đại diện, giá bán và đánh giá của người mua trước).
+  + Đọc tin tức công nghệ (Duyệt danh sách và đọc bài viết đánh giá thủ thuật).
+- Tác nhân Khách hàng (Customer):
+  + Quản lý giỏ hàng (Thêm hàng, sửa số lượng, chọn biến thể, xóa mặt hàng).
+  + Đặt hàng & Thanh toán (Nhập địa chỉ giao hàng, chọn COD hoặc chuyển khoản VietQR Napas247).
+  + Quản lý đơn mua cá nhân (Tra cứu lịch sử mua sắm và theo dõi trạng thái tiến trình đơn hàng).
+  + Đánh giá sản phẩm (Gửi chấm điểm từ 1-5 sao và nhận xét về sản phẩm đã trải nghiệm).
+  + Bình luận bài viết (Tham gia đóng góp ý kiến dưới các bài viết tin tức).
+  + Quản lý hồ sơ cá nhân (Chỉnh sửa thông tin cá nhân và cập nhật mật khẩu mới).
+- Tác nhân Quản trị viên (Admin):
+  + Xem thống kê Dashboard (Theo dõi KPI doanh thu, biểu đồ tài chính và tỷ lệ đơn hàng).
+  + Quản lý danh mục & Thương hiệu (Thêm, cập nhật, xóa các phân loại và thương hiệu).
+  + Quản lý sản phẩm & Kho hàng (Thêm sản phẩm, tải ảnh, cấu hình giá bán và số lượng tồn kho).
+  + Quản lý toàn bộ đơn hàng (Xem tất cả đơn hàng, duyệt và đổi trạng thái giao nhận).
+  + Quản lý người dùng (Quản lý danh sách thành viên, cấp quyền hoặc khóa tài khoản).
+  + Quản lý bài viết tin tức (Đăng bài viết mới, biên tập nội dung và kiểm duyệt bình luận).
+
+2.3.2. ĐẶC TẢ CHI TIẾT USE CASE UC01: ĐẶT HÀNG & THANH TOÁN TRỰC TUYẾN
+- Tên Use Case: UC01 - Đặt hàng và Thanh toán đơn hàng trực tuyến.
+- Tác nhân kích hoạt: Khách hàng (Customer).
+- Điều kiện tiên quyết: Khách hàng đã đăng nhập vào hệ thống và giỏ hàng có ít nhất một sản phẩm hợp lệ.
+- Luồng sự kiện chính (Main Success Scenario):
+  1. Khách hàng truy cập trang Giỏ hàng và nhấn nút "Tiến hành thanh toán".
+  2. Hệ thống chuyển hướng sang trang Checkout và hiển thị danh sách mặt hàng, số tiền tạm tính, phí vận chuyển và tổng tiền cần thanh toán.
+  3. Khách hàng nhập thông tin nhận hàng gồm: Họ tên người nhận, Số điện thoại liên hệ, Địa chỉ chi tiết (Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố) và Ghi chú giao hàng (nếu có).
+  4. Khách hàng lựa chọn một trong hai phương thức thanh toán:
+     - Phương thức 1: Thanh toán tiền mặt khi nhận hàng (COD).
+     - Phương thức 2: Chuyển khoản ngân hàng tức thời qua mã VietQR Napas247.
+  5. Khách hàng nhấn nút "Hoàn tất đặt hàng".
+  6. Hệ thống thực hiện kiểm tra tính hợp lệ của dữ liệu đầu vào và kiểm tra số lượng tồn kho của các sản phẩm trong giỏ hàng.
+  7. Hệ thống mở giao dịch cơ sở dữ liệu (@Transactional), tiến hành tạo bản ghi đơn hàng mới trong bảng 'orders' với mã đơn hàng duy nhất, lưu danh sách chi tiết các mặt hàng vào bảng 'order_details', trừ số lượng tồn kho tương ứng trong bảng 'products' và xóa sạch các mặt hàng vừa đặt trong giỏ hàng của người dùng.
+  8. Nếu khách hàng chọn phương thức VietQR: Hệ thống gọi API dịch vụ tạo mã QR VietQR Napas247 hiển thị hộp thoại Modal chứa mã QR động điền sẵn số tiền và mã đơn hàng, hiển thị hướng dẫn khách hàng quét mã chuyển khoản.
+  9. Hệ thống chuyển trạng thái đơn hàng sang "Chờ xác nhận" và chuyển hướng người dùng đến trang "Đơn mua của tôi" để theo dõi tiến trình.
+- Luồng sự kiện phụ (Alternative Flow):
+  - 3a. Khách hàng để trống các trường thông tin bắt buộc (Họ tên, SĐT, Địa chỉ): Hệ thống đánh dấu viền đỏ trường nhập liệu và hiển thị thông báo yêu cầu điền đầy đủ thông tin.
+  - 6a. Số lượng sản phẩm trong kho không đủ đáp ứng số lượng đặt mua: Hệ thống dừng quy trình đặt hàng, hiển thị thông báo lỗi "Sản phẩm [Tên sản phẩm] chỉ còn lại [X] sản phẩm trong kho. Vui lòng cập nhật lại giỏ hàng". Toàn bộ thao tác cơ sở dữ liệu được hoàn tác (Rollback).
+
+2.3.3. ĐẶC TẢ CHI TIẾT USE CASE UC02: QUẢN LÝ DANH MỤC & BIẾN THỂ SẢN PHẨM
+- Tên Use Case: UC02 - Thêm mới và Quản lý sản phẩm.
+- Tác nhân kích hoạt: Quản trị viên (Admin).
+- Điều kiện tiên quyết: Quản trị viên đã đăng nhập thành công với quyền 'ROLE_ADMIN' và truy cập phân hệ Quản trị.
+- Luồng sự kiện chính:
+  1. Quản trị viên điều hướng đến mục "Quản lý sản phẩm" trên thanh điều hướng Menu và nhấn nút "Thêm sản phẩm mới".
+  2. Hệ thống hiển thị biểu mẫu bao gồm các trường: Tên sản phẩm, Danh mục (Category), Thương hiệu (Brand), Giá gốc, Phần trăm giảm giá, Số lượng tồn kho, Mô tả tóm tắt, Nội dung chi tiết và Khu vực tải tệp hình ảnh.
+  3. Quản trị viên nhập đầy đủ thông tin sản phẩm và lựa chọn một hoặc nhiều tệp ảnh từ máy tính cục bộ.
+  4. Quản trị viên nhấn nút "Lưu sản phẩm".
+  5. Hệ thống kiểm tra tính hợp lệ của các trường dữ liệu (Giá bán > 0, Tồn kho >= 0, Tên không được trùng lặp).
+  6. Hệ thống lưu trữ các tệp ảnh tải lên vào thư mục lưu trữ media máy chủ, lưu thông tin sản phẩm vào bảng 'products' và lưu đường dẫn ảnh vào bảng 'product_images'.
+  7. Hệ thống hiển thị thông báo "Thêm sản phẩm mới thành công" và cập nhật danh sách hiển thị trên bảng quản trị.
+- Luồng sự kiện phụ:
+  - 5a. Dữ liệu nhập vào vi phạm quy tắc nghiệp vụ: Hệ thống báo lỗi cụ thể tại vị trí trường bị sai.
+
+
+================================================================================
+CHƯƠNG 3: THIẾT KẾ KIẾN TRÚC VÀ CƠ SỞ DỮ LIỆU
+================================================================================
+
+3.1. THIẾT KẾ KIẾN TRÚC TỔNG THỂ 3 TẦNG CHUẨN SPRING
+Hệ thống SiSiTechStore được xây dựng tuân thủ mô hình kiến trúc phân tầng chuẩn mực trong phát triển phần mềm doanh nghiệp Java:
+1. Tầng Trình diễn (Presentation Layer / Controller):
+   Chịu trách nhiệm tiếp nhận các yêu cầu HTTP từ Client thông qua giao thức REST. Tầng này thực hiện kiểm tra tính hợp lệ của dữ liệu đầu vào (Input Validation với Bean Validation @Valid), sau đó ủy thác việc xử lý cho Tầng Dịch vụ (Service Layer). Controller đóng gói dữ liệu kết quả thành các đối tượng ResponseEntity mang mã trạng thái HTTP chuẩn mực và trả về dữ liệu định dạng JSON.
+2. Tầng Dịch vụ và Xử lý nghiệp vụ (Business Logic / Service Layer):
+   Đóng vai trò là "bộ não" trung tâm của ứng dụng. Tầng Service chứa toàn bộ các quy tắc nghiệp vụ (Business Rules), tính toán giá tiền, áp dụng khuyến mãi, điều phối giao dịch phân tán (@Transactional) và tích hợp các dịch vụ bên ngoài (External Services: VietQR API, Google OAuth2).
+3. Tầng Truy cập dữ liệu (Data Access Layer / Repository):
+   Sử dụng Spring Data JPA để tương tác trực tiếp với hệ quản trị cơ sở dữ liệu quan hệ MySQL. Tầng này định nghĩa các giao diện Repository kế thừa JpaRepository, chịu trách nhiệm thực thi các thao tác CRUD (Create, Read, Update, Delete) và các câu truy vấn phức tạp thông qua JPQL hoặc Native SQL.
+4. Tầng Cơ sở dữ liệu (Database Layer):
+   Hệ quản trị CSDL MySQL 8.0 lưu trữ bền vững toàn bộ dữ liệu quan hệ, đảm bảo tính toàn vẹn thông qua các khóa chính (PK), khóa ngoại (FK) và các chỉ mục (Indexes) được tối ưu hóa.
+
+3.2. THIẾT KẾ MÔ HÌNH DỮ LIỆU QUAN HỆ (ERD)
+Hệ thống cơ sở dữ liệu của SiSiTechStore được chuẩn hóa đạt dạng chuẩn 3 (3NF), bao gồm 10 thực thể chính có mối quan hệ chặt chẽ với nhau:
+- Thực thể 'users': Lưu thông tin định danh và tài khoản của người dùng. Mối quan hệ 1-N với 'orders' (Một người dùng có thể có nhiều đơn hàng). Mối quan hệ 1-N với 'reviews' (Một người dùng có thể viết nhiều đánh giá). Mối quan hệ 1-N với 'post_comments'.
+- Thực thể 'categories': Lưu danh mục sản phẩm (Điện thoại, Laptop, Tablet...). Mối quan hệ 1-N với 'products'.
+- Thực thể 'brands': Lưu thương hiệu công nghệ (Apple, Samsung, Xiaomi, Asus...). Mối quan hệ 1-N với 'products'.
+- Thực thể 'products': Thực thể hạt nhân đại diện cho sản phẩm bán trên website. Có quan hệ N-1 với 'categories' và 'brands'. Mối quan hệ 1-N với 'product_images' (Một sản phẩm có nhiều ảnh chi tiết). Mối quan hệ 1-N với 'order_details' (Một sản phẩm có thể xuất hiện trong nhiều chi tiết đơn hàng). Mối quan hệ 1-N với 'reviews'.
+- Thực thể 'orders': Lưu thông tin tổng quát về đơn hàng, thông tin giao hàng, tổng tiền, phương thức thanh toán và trạng thái xử lý. Mối quan hệ 1-N với 'order_details'.
+- Thực thể 'order_details': Bảng liên kết trung gian lưu chi tiết danh sách mặt hàng, số lượng và giá bán tại thời điểm đặt của từng đơn hàng.
+- Thực thể 'posts' & 'post_comments': Quản lý chuyên mục tin tức công nghệ và các bình luận trao đổi của người dùng.
+
+3.3. TỪ ĐIỂN DỮ LIỆU CHI TIẾT (DATA DICTIONARY - 10 BẢNG)
+
+3.3.1. BẢNG USERS & USER_ROLES
+* Bảng users (Lưu trữ thông tin người dùng và tài khoản hệ thống):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh duy nhất của người dùng.
+  - username: VARCHAR(50), UNIQUE, Không rỗng. Ý nghĩa: Tên tài khoản đăng nhập.
+  - password: VARCHAR(255), Rỗng được (cho phép rỗng nếu đăng nhập OAuth2). Ý nghĩa: Mật khẩu đã được mã hóa bằng thuật toán BCrypt.
+  - full_name: VARCHAR(100), Không rỗng. Ý nghĩa: Họ và tên đầy đủ của người dùng.
+  - email: VARCHAR(100), UNIQUE, Không rỗng. Ý nghĩa: Địa chỉ thư điện tử xác thực.
+  - phone_number: VARCHAR(20), Rỗng được. Ý nghĩa: Số điện thoại liên hệ giao hàng.
+  - address: VARCHAR(255), Rỗng được. Ý nghĩa: Địa chỉ cư trú mặc định của người dùng.
+  - enabled: BOOLEAN, Default: true. Ý nghĩa: Trạng thái kích hoạt tài khoản.
+  - provider: VARCHAR(20), Default: 'LOCAL'. Ý nghĩa: Nhà cung cấp định danh ('LOCAL' hoặc 'GOOGLE').
+  - created_at: DATETIME, Không rỗng. Ý nghĩa: Thời điểm tài khoản được khởi tạo.
+
+* Bảng user_roles (Bảng liên kết quan hệ N-N giữa người dùng và vai trò):
+  - user_id: BIGINT, Khóa ngoại (FK) tham chiếu đến users(id).
+  - role_name: VARCHAR(50), Khóa chính kết hợp. Ý nghĩa: Tên vai trò được cấp ('ROLE_CUSTOMER', 'ROLE_ADMIN').
+
+3.3.2. BẢNG CATEGORIES & BRANDS
+* Bảng categories (Danh mục ngành hàng thiết bị):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh danh mục.
+  - name: VARCHAR(100), Không rỗng. Ý nghĩa: Tên danh mục (ví dụ: Điện thoại, Laptop, Âm thanh).
+  - slug: VARCHAR(120), UNIQUE, Không rỗng. Ý nghĩa: Chuỗi định danh URL thân thiện (ví dụ: dien-thoai).
+  - description: TEXT, Rỗng được. Ý nghĩa: Mô tả chi tiết về ngành hàng.
+  - icon: VARCHAR(50), Rỗng được. Ý nghĩa: Tên class biểu tượng hiển thị trên giao diện.
+
+* Bảng brands (Thương hiệu nhà sản xuất công nghệ):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh thương hiệu.
+  - name: VARCHAR(100), Không rỗng. Ý nghĩa: Tên thương hiệu (ví dụ: Apple, Samsung, Sony).
+  - slug: VARCHAR(120), UNIQUE, Không rỗng. Ý nghĩa: Chuỗi định danh URL thương hiệu.
+  - logo_url: VARCHAR(255), Rỗng được. Ý nghĩa: Đường dẫn tệp logo của hãng.
+
+3.3.3. BẢNG PRODUCTS & PRODUCT_IMAGES
+* Bảng products (Sản phẩm kinh doanh trong hệ thống):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh duy nhất của sản phẩm.
+  - name: VARCHAR(255), Không rỗng. Ý nghĩa: Tên thương mại đầy đủ của sản phẩm.
+  - slug: VARCHAR(280), UNIQUE, Không rỗng. Ý nghĩa: Đường dẫn tĩnh SEO của sản phẩm.
+  - price: DECIMAL(15,2), Không rỗng, Ràng buộc >= 0. Ý nghĩa: Giá niêm yết hiện tại của sản phẩm.
+  - original_price: DECIMAL(15,2), Rỗng được. Ý nghĩa: Giá gốc trước khi giảm giá.
+  - discount_percent: INT, Default: 0. Ý nghĩa: Tỷ lệ phần trăm giảm giá khuyến mãi (0 - 100).
+  - stock_quantity: INT, Không rỗng, Ràng buộc >= 0. Ý nghĩa: Số lượng sản phẩm còn tồn trong kho.
+  - main_image: VARCHAR(255), Rỗng được. Ý nghĩa: Đường dẫn hình ảnh đại diện chính của sản phẩm.
+  - short_description: TEXT, Rỗng được. Ý nghĩa: Đoạn mô tả vắn tắt tính năng nổi bật.
+  - full_description: LONGTEXT, Rỗng được. Ý nghĩa: Bài viết chi tiết thông số kỹ thuật (định dạng HTML).
+  - category_id: BIGINT, Khóa ngoại (FK) tham chiếu categories(id). Ý nghĩa: Thuộc danh mục ngành hàng nào.
+  - brand_id: BIGINT, Khóa ngoại (FK) tham chiếu brands(id). Ý nghĩa: Do thương hiệu nào sản xuất.
+  - is_featured: BOOLEAN, Default: false. Ý nghĩa: Cờ đánh dấu sản phẩm nổi bật hiển thị ở trang chủ.
+  - active: BOOLEAN, Default: true. Ý nghĩa: Trạng thái hiển thị mở bán của sản phẩm.
+  - created_at: DATETIME, Không rỗng. Ý nghĩa: Ngày giờ tạo sản phẩm trên hệ thống.
+
+* Bảng product_images (Bộ sưu tập hình ảnh chi tiết của sản phẩm):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh ảnh.
+  - product_id: BIGINT, Khóa ngoại (FK) tham chiếu products(id), Khóa ngoại tự động xóa (CASCADE).
+  - image_url: VARCHAR(255), Không rỗng. Ý nghĩa: Đường dẫn lưu trữ hình ảnh góc chụp chi tiết.
+  - display_order: INT, Default: 0. Ý nghĩa: Thứ tự hiển thị trong bộ sưu tập (Gallery).
+
+3.3.4. BẢNG ORDERS & ORDER_DETAILS
+* Bảng orders (Hóa đơn và Đơn đặt hàng của khách hàng):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh duy nhất của đơn hàng.
+  - order_code: VARCHAR(50), UNIQUE, Không rỗng. Ý nghĩa: Mã hóa đơn hiển thị (ví dụ: SISI1024).
+  - user_id: BIGINT, Khóa ngoại (FK) tham chiếu users(id). Ý nghĩa: Tài khoản khách hàng thực hiện mua sắm.
+  - recipient_name: VARCHAR(100), Không rỗng. Ý nghĩa: Họ và tên người nhận hàng.
+  - phone_number: VARCHAR(20), Không rỗng. Ý nghĩa: Số điện thoại người nhận hàng.
+  - shipping_address: VARCHAR(255), Không rỗng. Ý nghĩa: Địa chỉ nhận hàng chi tiết.
+  - note: TEXT, Rỗng được. Ý nghĩa: Ghi chú thời gian hoặc yêu cầu giao hàng đặc biệt.
+  - total_amount: DECIMAL(15,2), Không rỗng. Ý nghĩa: Tổng giá trị thanh toán của đơn hàng (VNĐ).
+  - payment_method: VARCHAR(30), Không rỗng. Ý nghĩa: Phương thức ('COD' hoặc 'VIETQR').
+  - payment_status: VARCHAR(30), Default: 'PENDING'. Ý nghĩa: Trạng thái thanh toán ('PENDING', 'PAID').
+  - order_status: VARCHAR(30), Default: 'PENDING'. Ý nghĩa: Trạng thái đơn hàng ('PENDING', 'PROCESSING', 'SHIPPING', 'COMPLETED', 'CANCELLED').
+  - created_at: DATETIME, Không rỗng. Ý nghĩa: Thời điểm khách hàng nhấn đặt hàng.
+
+* Bảng order_details (Chi tiết các mặt hàng trong từng hóa đơn):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh dòng chi tiết.
+  - order_id: BIGINT, Khóa ngoại (FK) tham chiếu orders(id), CASCADE. Ý nghĩa: Thuộc đơn hàng nào.
+  - product_id: BIGINT, Khóa ngoại (FK) tham chiếu products(id). Ý nghĩa: Mặt hàng được mua.
+  - quantity: INT, Không rỗng, Ràng buộc > 0. Ý nghĩa: Số lượng sản phẩm đặt mua.
+  - unit_price: DECIMAL(15,2), Không rỗng. Ý nghĩa: Đơn giá sản phẩm tại thời điểm chốt đơn hàng.
+  - selected_color: VARCHAR(50), Rỗng được. Ý nghĩa: Phiên bản màu sắc khách hàng đã lựa chọn.
+  - selected_storage: VARCHAR(50), Rỗng được. Ý nghĩa: Phiên bản dung lượng bộ nhớ khách hàng đã chọn.
+
+3.3.5. BẢNG REVIEWS, POSTS & POST_COMMENTS
+* Bảng reviews (Đánh giá và Xếp hạng sao của người dùng):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh bài đánh giá.
+  - product_id: BIGINT, Khóa ngoại (FK) tham chiếu products(id). Ý nghĩa: Sản phẩm được đánh giá.
+  - user_id: BIGINT, Khóa ngoại (FK) tham chiếu users(id). Ý nghĩa: Người dùng gửi đánh giá.
+  - rating: INT, Không rỗng, Ràng buộc từ 1 đến 5 sao. Ý nghĩa: Điểm số đánh giá chất lượng.
+  - comment: TEXT, Rỗng được. Ý nghĩa: Lời nhận xét trải nghiệm sử dụng.
+  - created_at: DATETIME, Không rỗng. Ý nghĩa: Ngày giờ đăng nhận xét.
+
+* Bảng posts (Bài viết tin tức và thủ thuật công nghệ):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh bài viết.
+  - title: VARCHAR(255), Không rỗng. Ý nghĩa: Tiêu đề bài viết tin tức.
+  - slug: VARCHAR(280), UNIQUE, Không rỗng. Ý nghĩa: Đường dẫn tĩnh SEO của bài viết.
+  - thumbnail: VARCHAR(255), Rỗng được. Ý nghĩa: Đường dẫn ảnh đại diện bài viết.
+  - summary: TEXT, Rỗng được. Ý nghĩa: Đoạn tóm tắt mở đầu bài viết.
+  - content: LONGTEXT, Không rỗng. Ý nghĩa: Nội dung chi tiết toàn văn bài viết (HTML).
+  - category: VARCHAR(100), Rỗng được. Ý nghĩa: Chuyên mục (Đánh giá, Thủ thuật, Xu hướng).
+  - author_id: BIGINT, Khóa ngoại (FK) tham chiếu users(id). Ý nghĩa: Tác giả biên soạn bài viết.
+  - created_at: DATETIME, Không rỗng. Ý nghĩa: Ngày giờ xuất bản tin tức.
+
+* Bảng post_comments (Bình luận của độc giả dưới bài viết tin tức):
+  - id: BIGINT, Khóa chính (PK), Tự tăng (AI), Không rỗng. Ý nghĩa: Mã định danh bình luận.
+  - post_id: BIGINT, Khóa ngoại (FK) tham chiếu posts(id), CASCADE. Ý nghĩa: Thuộc bài viết nào.
+  - user_id: BIGINT, Khóa ngoại (FK) tham chiếu users(id). Ý nghĩa: Người tham gia thảo luận.
+  - content: TEXT, Không rỗng. Ý nghĩa: Nội dung thảo luận.
+  - created_at: DATETIME, Không rỗng. Ý nghĩa: Thời điểm gửi bình luận.
+
+3.4. THIẾT KẾ VÀ ĐẶC TẢ CHI TIẾT HỆ THỐNG RESTFUL API (18 ENDPOINTS)
+Dưới đây là bảng đặc tả chi tiết 18 Endpoints tiêu biểu phục vụ giao tiếp giữa Client và Server:
+
+1. GET /api/products
+   Mô tả: Lấy danh sách sản phẩm có phân trang, hỗ trợ bộ lọc danh mục, thương hiệu, khoảng giá và từ khóa tìm kiếm.
+   Tham số yêu cầu: page, size, categoryId, brandId, minPrice, maxPrice, keyword.
+   Mã phản hồi thành công: 200 OK (Trả về Page<ProductDTO>).
+   Quyền truy cập: Công khai (Tất cả người dùng).
+
+2. GET /api/products/{id}
+   Mô tả: Lấy thông tin chi tiết một sản phẩm theo ID kèm theo bộ sưu tập ảnh và các bài đánh giá.
+   Tham số yêu cầu: PathVariable id (Long).
+   Mã phản hồi thành công: 200 OK (ProductDetailDTO) / 404 Not Found.
+   Quyền truy cập: Công khai.
+
+3. POST /api/admin/products
+   Mô tả: Thêm một sản phẩm mới vào kho hàng hệ thống.
+   Tham số yêu cầu: RequestBody ProductCreateRequest.
+   Mã phản hồi thành công: 201 Created (ProductDTO) / 400 Bad Request.
+   Quyền truy cập: Bắt buộc quyền ROLE_ADMIN.
+
+4. PUT /api/admin/products/{id}
+   Mô tả: Cập nhật thông tin chi tiết, giá bán hoặc số lượng tồn kho của một sản phẩm hiện hữu.
+   Tham số yêu cầu: PathVariable id, RequestBody ProductUpdateRequest.
+   Mã phản hồi thành công: 200 OK / 400 Bad Request / 404 Not Found.
+   Quyền truy cập: Bắt buộc quyền ROLE_ADMIN.
+
+5. DELETE /api/admin/products/{id}
+   Mô tả: Xóa sản phẩm khỏi hệ thống (hoặc ẩn trạng thái ngừng kinh doanh).
+   Tham số yêu cầu: PathVariable id (Long).
+   Mã phản hồi thành công: 204 No Content / 404 Not Found.
+   Quyền truy cập: Bắt buộc quyền ROLE_ADMIN.
+
+6. GET /api/categories
+   Mô tả: Lấy danh sách toàn bộ các danh mục ngành hàng sản phẩm.
+   Tham số yêu cầu: Không có.
+   Mã phản hồi thành công: 200 OK (List<CategoryDTO>).
+   Quyền truy cập: Công khai.
+
+7. POST /api/admin/categories
+   Mô tả: Tạo danh mục ngành hàng mới.
+   Tham số yêu cầu: RequestBody CategoryRequest.
+   Mã phản hồi thành công: 201 Created / 400 Bad Request.
+   Quyền truy cập: Bắt buộc quyền ROLE_ADMIN.
+
+8. GET /api/brands
+   Mô tả: Lấy danh sách toàn bộ các thương hiệu đối tác trong hệ thống.
+   Tham số yêu cầu: Không có.
+   Mã phản hồi thành công: 200 OK (List<BrandDTO>).
+   Quyền truy cập: Công khai.
+
+9. POST /api/admin/brands
+   Mô tả: Thêm thương hiệu sản xuất mới vào hệ thống.
+   Tham số yêu cầu: RequestBody BrandRequest.
+   Mã phản hồi thành công: 201 Created / 400 Bad Request.
+   Quyền truy cập: Bắt buộc quyền ROLE_ADMIN.
+
+10. POST /api/auth/login
+    Mô tả: Xác thực tài khoản người dùng thông qua tên đăng nhập và mật khẩu.
+    Tham số yêu cầu: RequestBody LoginRequest (username, password).
+    Mã phản hồi thành công: 200 OK (Thông tin User và Session Token) / 401 Unauthorized.
+    Quyền truy cập: Công khai.
+
+11. POST /api/auth/register
+    Mô tả: Đăng ký tài khoản khách hàng mới vào hệ thống.
+    Tham số yêu cầu: RequestBody RegisterRequest (username, password, email, fullName, phone).
+    Mã phản hồi thành công: 201 Created / 400 Bad Request / 409 Conflict.
+    Quyền truy cập: Công khai.
+
+12. GET /api/auth/current-user
+    Mô tả: Lấy thông tin định danh và quyền hạn của người dùng đang đăng nhập hiện tại.
+    Tham số yêu cầu: Xác thực qua Session / Token.
+    Mã phản hồi thành công: 200 OK (UserSummaryDTO) / 401 Unauthorized.
+    Quyền truy cập: Người dùng đã đăng nhập.
+
+13. POST /api/orders
+    Mô tả: Tiếp nhận thông tin và khởi tạo đơn đặt hàng mới.
+    Tham số yêu cầu: RequestBody OrderCreateRequest (thông tin người nhận, địa chỉ, phương thức thanh toán, giỏ hàng).
+    Mã phản hồi thành công: 201 Created (OrderResponseDTO) / 400 Bad Request.
+    Quyền truy cập: Bắt buộc quyền ROLE_CUSTOMER.
+
+14. GET /api/orders/my-orders
+    Mô tả: Lấy danh sách lịch sử đơn hàng của chính tài khoản đang đăng nhập.
+    Tham số yêu cầu: Không có (tự động trích xuất thông tin người dùng từ Security Context).
+    Mã phản hồi thành công: 200 OK (List<OrderSummaryDTO>).
+    Quyền truy cập: Bắt buộc quyền ROLE_CUSTOMER.
+
+15. GET /api/admin/orders
+    Mô tả: Lấy danh sách toàn bộ đơn đặt hàng trong toàn hệ thống phục vụ công tác điều hành.
+    Tham số yêu cầu: page, size, status, dateFrom, dateTo.
+    Mã phản hồi thành công: 200 OK (Page<OrderAdminDTO>).
+    Quyền truy cập: Bắt buộc quyền ROLE_ADMIN.
+
+16. PATCH /api/admin/orders/{id}/status
+    Mô tả: Cập nhật trạng thái xử lý hoặc trạng thái thanh toán của một đơn hàng.
+    Tham số yêu cầu: PathVariable id, RequestBody UpdateStatusRequest.
+    Mã phản hồi thành công: 200 OK / 400 Bad Request / 404 Not Found.
+    Quyền truy cập: Bắt buộc quyền ROLE_ADMIN.
+
+17. GET /api/admin/dashboard/stats
+    Mô tả: Tổng hợp các chỉ số KPI điều hành: tổng doanh thu lũy kế, tổng số đơn hàng, tổng số khách hàng đăng ký.
+    Tham số yêu cầu: Không có.
+    Mã phản hồi thành công: 200 OK (DashboardStatsDTO).
+    Quyền truy cập: Bắt buộc quyền ROLE_ADMIN.
+
+18. GET /api/admin/dashboard/revenue-chart
+    Mô tả: Cung cấp mảng số liệu doanh thu 12 tháng gần nhất phục vụ vẽ biểu đồ đường Line Chart.
+    Tham số yêu cầu: Tham số năm (year).
+    Mã phản hồi thành công: 200 OK (List<MonthlyRevenueDTO>).
+    Quyền truy cập: Bắt buộc quyền ROLE_ADMIN.
+
+
+================================================================================
+CHƯƠNG 4: HIỆN THỰC HÓA VÀ CÀI ĐẶT HỆ THỐNG
+================================================================================
+
+4.1. CẤU TRÚC TỔ CHỨC MÃ NGUỒN VÀ PHÂN CHIA PACKAGES
+Mã nguồn của hệ thống SiSiTechStore được bố trí khoa học theo kiến trúc Clean Package của Spring Boot tại thư mục gốc 'd:\LTJAVA\demo1\src\main\java\com\example\demo\':
+- com.example.demo.controller: Chứa các lớp REST Controller tiếp nhận và điều phối các yêu cầu HTTP (ProductController, OrderController, AuthController, AdminDashboardController...).
+- com.example.demo.service & com.example.demo.service.impl: Định nghĩa các giao diện Service Interface và lớp hiện thực cài đặt chi tiết (ProductServiceImpl, OrderServiceImpl, UserServiceImpl...).
+- com.example.demo.repository: Chứa các interface kế thừa JpaRepository định nghĩa các thao tác truy xuất CSDL (ProductRepository, OrderRepository, UserRepository, CategoryRepository...).
+- com.example.demo.entity: Định nghĩa các lớp thực thể ánh xạ JPA Entity tương ứng với các bảng trong MySQL (Product, Order, OrderDetail, User, Category, Brand, Review, Post...).
+- com.example.demo.dto: Chứa các đối tượng Data Transfer Object phục vụ đóng gói và truyền tải dữ liệu an toàn giữa Client và Server (LoginRequest, OrderCreateRequest, ProductDTO...).
+- com.example.demo.config: Chứa các lớp cấu hình hệ thống: SecurityConfig (cấu hình bộ lọc bảo mật), WebMvcConfig (cấu hình CORS và phục vụ tệp tĩnh), PasswordEncoderConfig.
+- Thư mục src/main/resources/static/frontend: Chứa toàn bộ giao diện phía máy khách: index.html (Trang chủ), product-detail.html (Chi tiết sản phẩm), cart.html (Giỏ hàng), checkout.html (Thanh toán), my-orders.html (Đơn mua cá nhân), news.html (Tin công nghệ), admin/ (Phân hệ quản trị Dashboard và Quản lý danh mục, sản phẩm, đơn hàng).
+
+4.2. HIỆN THỰC CƠ CHẾ AN NINH VÀ XÁC THỰC NGƯỜI DÙNG
+- Cấu hình chuỗi bảo mật SecurityFilterChain:
+  Lớp SecurityConfig kích hoạt @EnableWebSecurity và cấu hình HttpSecurity. Mọi yêu cầu truy cập đến tài nguyên tĩnh (CSS, JS, hình ảnh) và các trang công khai (index, product-detail, news) đều được cấp quyền 'permitAll()'. Các yêu cầu thực hiện chức năng mua hàng, tạo đơn hàng được yêu cầu xác thực người dùng ('authenticated()'). Toàn bộ đường dẫn bắt đầu bằng '/admin/**' hoặc '/api/admin/**' được phân quyền nghiêm ngặt, bắt buộc tài khoản phải sở hữu vai trò 'ROLE_ADMIN'.
+- Cơ chế mã hóa BCrypt:
+  Khi khách hàng đăng ký tài khoản mới, chuỗi mật khẩu thô được truyền qua phương thức băm 'passwordEncoder.encode(rawPassword)' trước khi lưu trữ vào bảng 'users'. Trong quá trình đăng nhập, hệ thống so sánh hàm băm thông qua 'passwordEncoder.matches(rawPassword, encodedPassword)', loại bỏ hoàn toàn nguy cơ rò rỉ mật khẩu người dùng ngay cả khi cơ sở dữ liệu bị tấn công.
+- Tích hợp đăng nhập Google OAuth2:
+  Cấu hình Google Client ID và Secret trong application.properties. Khi người dùng xác thực thành công qua Google, lớp CustomOAuth2UserService tự động kiểm tra xem địa chỉ email đã tồn tại trong CSDL hay chưa. Nếu chưa tồn tại, hệ thống tự động sinh một tài khoản người dùng mới với nhà cung cấp 'GOOGLE', cấp quyền mặc định 'ROLE_CUSTOMER' và gắn kết phiên làm việc an toàn.
+
+4.3. HIỆN THỰC HÓA NGHIỆP VỤ GIỎ HÀNG VÀ XỬ LÝ ĐƠN HÀNG
+- Quản lý giỏ hàng phía Client:
+  Giỏ hàng được quản lý linh hoạt bằng JavaScript thông qua LocalStorage trên trình duyệt của người dùng. Mỗi phần tử trong giỏ hàng lưu trữ đầy đủ: ID sản phẩm, tên, ảnh, số lượng, biến thể màu sắc và dung lượng đã chọn, cùng giá bán tại thời điểm thêm. Điều này giúp tối ưu hóa tải cho máy chủ, giảm thiểu các yêu cầu mạng không cần thiết trong quá trình người dùng duyệt chọn sản phẩm.
+- Xử lý giao dịch Đặt hàng nguyên tử:
+  Khi khách hàng nhấn nút thanh toán trên trang checkout.html, một yêu cầu POST được gửi đến '/api/orders' kèm theo toàn bộ dữ liệu giỏ hàng. Tại phương thức 'createOrder()' trong OrderServiceImpl:
+  1. Đánh dấu @Transactional để đảm bảo tính nguyên tử tuyệt đối.
+  2. Duyệt qua từng sản phẩm trong đơn hàng, truy vấn CSDL để kiểm tra số lượng tồn kho khả dụng ('product.getStockQuantity() >= item.getQuantity()').
+  3. Cập nhật giảm số lượng tồn kho của sản phẩm trong kho ('product.setStockQuantity(stock - qty)').
+  4. Tạo đối tượng Order, sinh mã đơn hàng duy nhất 'SISI' kết hợp dấu thời gian và số ngẫu nhiên.
+  5. Tạo danh sách các đối tượng OrderDetail tương ứng và thiết lập quan hệ hai chiều.
+  6. Lưu hóa đơn vào cơ sở dữ liệu và hoàn tất giao dịch.
+
+4.4. TÍCH HỢP THANH TOÁN TRỰC TUYẾN QUÉT MÃ VIETQR NAPAS247
+Để mang lại trải nghiệm thanh toán hiện đại và tiện lợi nhất cho khách hàng, hệ thống SiSiTechStore tích hợp giải pháp thanh toán không dùng tiền mặt qua cổng VietQR Napas247:
+- Định dạng chuỗi API VietQR:
+  Khi người dùng chọn hình thức "Chuyển khoản VietQR" và hoàn tất đặt hàng, mã JavaScript phía Frontend tự động xây dựng đường dẫn tạo mã QR trực tiếp:
+  'https://img.vietqr.io/image/[MÃ_NGÂN_HÀNG]-[SỐ_TÀI_KHOẢN]-compact2.png?amount=[SỐ_TIỀN]&addInfo=[MÃ_ĐƠN_HÀNG]&accountName=[TÊN_CHỦ_TK]'
+- Hiển thị và Hướng dẫn tương tác:
+  Hệ thống hiển thị một Modal giao diện nổi bật chứa ảnh mã QR động được render sắc nét, ghi rõ số tiền cần chuyển chính xác đến từng đồng, số tài khoản thụ hưởng và cú pháp nội dung chuyển khoản chuẩn hóa. Khách hàng chỉ cần mở ứng dụng Mobile Banking của bất kỳ ngân hàng nào tại Việt Nam để quét mã, thanh toán được thực hiện tức thời mà không cần nhập liệu thủ công.
+
+4.5. PHÂN TÍCH SỐ LIỆU VÀ TRỰC QUAN HÓA DASHBOARD QUẢN TRỊ BẰNG CHART.JS
+- Tổng hợp chỉ số KPI kinh doanh:
+  AdminDashboardController cung cấp API trả về tổng doanh thu tích lũy được tính bằng tổng trường 'total_amount' của các đơn hàng có trạng thái 'COMPLETED', tổng số lượng đơn hàng đã phát sinh và tổng số tài khoản khách hàng hoạt động.
+- Trực quan hóa dữ liệu với Chart.js:
+  - Biểu đồ xu hướng doanh thu (Line Chart): Sử dụng cấu hình màu sắc thương hiệu SiSi TechStore (xanh dương Gradient), trục hoành biểu diễn 12 tháng trong năm và trục tung biểu diễn số tiền doanh thu (VNĐ).
+  - Biểu đồ cơ cấu trạng thái đơn hàng (Doughnut Chart): Phân chia tỷ lệ trực quan giữa các trạng thái Đơn hàng (Chờ xác nhận, Đang xử lý, Đang giao, Đã giao thành công, Đã hủy) bằng các gam màu sắc tương phản rõ ràng, giúp ban quản trị nhanh chóng nắm bắt tình hình vận hành kho bãi và giao nhận.
+
+
+================================================================================
+CHƯƠNG 5: KIỂM THỬ HỆ THỐNG VÀ ĐÁNH GIÁ CHẤT LƯỢNG
+================================================================================
+
+5.1. KẾ HOẠCH VÀ PHƯƠNG PHÁP KIỂM THỬ
+Hệ thống SiSiTechStore được kiểm thử toàn diện thông qua hai phương pháp chính:
+- Kiểm thử hộp đen (Black-box Testing): Đánh giá các chức năng từ góc nhìn của người dùng cuối, đảm bảo giao diện tiếp nhận dữ liệu chính xác, các luồng nghiệp vụ hoạt động đúng đặc tả yêu cầu và các thông báo lỗi hiển thị thân thiện, rõ ràng.
+- Kiểm thử tích hợp (Integration Testing): Kiểm tra sự tương tác và đồng bộ dữ liệu giữa các tầng kiến trúc (Controller -> Service -> Repository -> MySQL Database) và sự phối hợp giữa ứng dụng với các dịch vụ bên ngoài (Google OAuth2, VietQR API).
+
+5.2. BẢNG MA TRẬN KỊCH BẢN KIỂM THỬ CHI TIẾT (15 TEST CASES TIÊU BIỂU)
+
+1. TC01 - Đăng ký tài khoản với thông tin hợp lệ
+   Dữ liệu thử nghiệm: Username='hoanganh', Password='Password123@', Email='anh@gmail.com', Phone='0912345678'.
+   Kết quả kỳ vọng: Mã trạng thái 201 Created; tài khoản được lưu trong bảng 'users' với mật khẩu đã mã hóa BCrypt; thông báo thành công hiển thị.
+   Kết quả thực tế: Đạt (Passed).
+
+2. TC02 - Đăng ký với Email đã tồn tại trong hệ thống
+   Dữ liệu thử nghiệm: Email='anh@gmail.com' (đã đăng ký trước đó).
+   Kết quả kỳ vọng: Mã trạng thái 409 Conflict hoặc 400 Bad Request; hiển thị thông báo lỗi "Email này đã được sử dụng".
+   Kết quả thực tế: Đạt (Passed).
+
+3. TC03 - Đăng nhập với mật khẩu không chính xác
+   Dữ liệu thử nghiệm: Username='hoanganh', Password='WrongPassword'.
+   Kết quả kỳ vọng: Mã trạng thái 401 Unauthorized; hiển thị thông báo "Tên đăng nhập hoặc mật khẩu không đúng"; không cấp phiên đăng nhập.
+   Kết quả thực tế: Đạt (Passed).
+
+4. TC04 - Đăng nhập tài khoản bằng nút Google OAuth2
+   Dữ liệu thử nghiệm: Đăng nhập bằng tài khoản Google Gmail thật qua trình duyệt.
+   Kết quả kỳ vọng: Google Authorization Server trả về Token hợp lệ; hệ thống tự tạo user trong CSDL nếu chưa có; đăng nhập thành công và chuyển về trang chủ.
+   Kết quả thực tế: Đạt (Passed).
+
+5. TC05 - Tìm kiếm sản phẩm theo từ khóa
+   Dữ liệu thử nghiệm: Keyword='iPhone 15'.
+   Kết quả kỳ vọng: Trả về danh sách các sản phẩm có tên hoặc mô tả chứa từ khóa 'iPhone 15'; các sản phẩm khác bị ẩn.
+   Kết quả thực tế: Đạt (Passed).
+
+6. TC06 - Lọc sản phẩm theo khoảng giá và danh mục
+   Dữ liệu thử nghiệm: Category='Laptop', Khoảng giá từ 15.000.000đ đến 25.000.000đ.
+   Kết quả kỳ vọng: Trả về chính xác các mặt hàng laptop có mức giá nằm trong khoảng đã chọn; số lượng hiển thị đúng kết quả lọc.
+   Kết quả thực tế: Đạt (Passed).
+
+7. TC07 - Thêm sản phẩm vào giỏ hàng và thay đổi số lượng
+   Dữ liệu thử nghiệm: Thêm iPhone 15 Pro Max, tăng số lượng từ 1 lên 3.
+   Kết quả kỳ vọng: Giỏ hàng trên thanh Header hiển thị số lượng badge = 3; tổng tiền trong giỏ hàng tự động tính toán lại chính xác.
+   Kết quả thực tế: Đạt (Passed).
+
+8. TC08 - Đặt hàng thành công với phương thức COD
+   Dữ liệu thử nghiệm: Nhập đầy đủ người nhận, SĐT, địa chỉ, chọn phương thức 'COD'.
+   Kết quả kỳ vọng: Tạo bản ghi thành công trong 'orders'; lưu 'order_details'; trừ số lượng tồn kho; giỏ hàng bị xóa rỗng; chuyển sang trang Đơn mua.
+   Kết quả thực tế: Đạt (Passed).
+
+9. TC09 - Đặt hàng với phương thức quét mã VietQR Napas247
+   Dữ liệu thử nghiệm: Chọn phương thức 'VIETQR', nhấn Hoàn tất đặt hàng.
+   Kết quả kỳ vọng: Tạo đơn hàng với mã đơn duy nhất; hiển thị Modal mã QR chứa đúng số tài khoản, số tiền và nội dung chuyển khoản.
+   Kết quả thực tế: Đạt (Passed).
+
+10. TC10 - Đặt hàng khi số lượng tồn kho không đủ
+    Dữ liệu thử nghiệm: Sản phẩm còn 2 chiếc trong kho, khách hàng đặt mua số lượng 5.
+    Kết quả kỳ vọng: Hệ thống từ chối tạo đơn hàng, báo lỗi "Sản phẩm không đủ số lượng trong kho"; không trừ tồn kho (Rollback).
+    Kết quả thực tế: Đạt (Passed).
+
+11. TC11 - Phân quyền: Khách hàng xem đơn hàng của chính mình
+    Dữ liệu thử nghiệm: Đăng nhập tài khoản 'user1', truy cập my-orders.html.
+    Kết quả kỳ vọng: Chỉ hiển thị các đơn hàng có user_id trùng khớp với ID của 'user1'; tuyệt đối không hiển thị đơn của 'user2'.
+    Kết quả thực tế: Đạt (Passed).
+
+12. TC12 - Phân quyền: Ngăn chặn Customer truy cập trang Quản trị Admin
+    Dữ liệu thử nghiệm: Tài khoản 'user1' (Role CUSTOMER) gõ trực tiếp URL 'http://localhost:8080/frontend/admin/index.html'.
+    Kết quả kỳ vọng: Spring Security chặn truy cập; chuyển hướng về trang thông báo lỗi 403 Forbidden hoặc trang đăng nhập.
+    Kết quả thực tế: Đạt (Passed).
+
+13. TC13 - Admin thêm mới sản phẩm và upload ảnh
+    Dữ liệu thử nghiệm: Đăng nhập 'admin', điền tên sản phẩm, chọn danh mục, thương hiệu, giá bán, chọn 2 file ảnh và nhấn Lưu.
+    Kết quả kỳ vọng: Tạo mới bản ghi trong 'products'; lưu 2 bản ghi ảnh trong 'product_images'; tệp ảnh lưu thành công trong thư mục tải lên.
+    Kết quả thực tế: Đạt (Passed).
+
+14. TC14 - Admin cập nhật trạng thái đơn hàng
+    Dữ liệu thử nghiệm: Đổi trạng thái đơn hàng SISI1024 từ 'PENDING' sang 'SHIPPING'.
+    Kết quả kỳ vọng: Trường 'order_status' cập nhật thành 'SHIPPING' trong CSDL; phía khách hàng xem lịch sử thấy trạng thái cập nhật theo thời gian thực.
+    Kết quả thực tế: Đạt (Passed).
+
+15. TC15 - Hiển thị biểu đồ báo cáo doanh thu Dashboard
+    Dữ liệu thử nghiệm: Truy cập trang quản trị Admin Dashboard sau khi đã có dữ liệu đơn hàng thành công.
+    Kết quả kỳ vọng: API trả về đúng số tiền doanh thu theo từng tháng; Chart.js vẽ biểu đồ đường Line Chart và biểu đồ tròn chính xác không bị lỗi console.
+    Kết quả thực tế: Đạt (Passed).
+
+5.3. ĐÁNH GIÁ CHẤT LƯỢNG VÀ BIỆN PHÁP BẢO MẬT PHÒNG CHỐNG LỖ HỔNG OWASP
+- Phòng chống tấn công tiêm nhiễm SQL (SQL Injection):
+  Toàn bộ các thao tác truy vấn dữ liệu được thực hiện thông qua Spring Data JPA và Hibernate ORM với cơ chế Parameterized Queries (truy vấn tham số hóa). Hệ thống không bao giờ nối chuỗi chuỗi dữ liệu đầu vào thô của người dùng vào câu lệnh SQL, triệt tiêu hoàn toàn nguy cơ tấn công SQL Injection (Lỗ hổng OWASP Top 1).
+- Phòng chống tấn công mã độc chéo trang (Cross-Site Scripting - XSS):
+  Mọi dữ liệu đầu vào từ người dùng (như nội dung bình luận, nhận xét sản phẩm) đều được lọc ký tự đặc biệt và mã hóa HTML entities trước khi lưu hoặc hiển thị. Trình duyệt sẽ chỉ hiển thị các đoạn mã dưới dạng văn bản thuần túy, ngăn chặn việc thực thi các đoạn mã JavaScript độc hại trên máy của nạn nhân.
+- Kiểm soát truy cập và Phân quyền nghiêm ngặt (Broken Access Control):
+  Hệ thống áp dụng mô hình bảo vệ tài nguyên đa lớp: kiểm soát đường dẫn ở tầng lọc (Filter Level) thông qua SecurityFilterChain và kiểm soát quyền ở mức phương thức (Method Security) thông qua @PreAuthorize("hasRole('ADMIN')"). Các API trả về đơn mua cá nhân được lọc chặt chẽ theo ID người dùng đang đăng nhập lấy từ SecurityContextHolder, ngăn chặn hoàn toàn việc người dùng này xem trộm dữ liệu đơn hàng của người dùng khác.
+
+
+================================================================================
+CHƯƠNG 6: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+================================================================================
+
+6.1. KẾT QUẢ ĐẠT ĐƯỢC SO VỚI MỤC TIÊU BAN ĐẦU
+Trải qua quá trình nghiên cứu lý thuyết, phân tích nghiệp vụ và lập trình cài đặt hệ thống, đề tài "Xây dựng hệ thống website thương mại điện tử bán hàng công nghệ SiSiTechStore" đã hoàn thành đầy đủ 100% các mục tiêu đề ra ban đầu:
+1. Xây dựng hoàn chỉnh mô hình CSDL quan hệ 10 bảng đạt chuẩn 3NF, thiết lập đầy đủ khóa ngoại, quan hệ thực thể chặt chẽ và chỉ mục tối ưu hóa.
+2. Hoàn thiện hệ thống Backend Java 17 / Spring Boot 3.x với kiến trúc phân tầng chuyên nghiệp (Controller - Service - Repository), tích hợp 18 Endpoints RESTful API chuẩn mực.
+3. Triển khai phân hệ an ninh Spring Security mạnh mẽ, áp dụng cơ chế băm mật khẩu chuẩn quân sự BCrypt và tích hợp thành công đăng nhập xã hội Google OAuth2.
+4. Tích hợp cổng thanh toán trực tuyến VietQR Napas247, tự động tạo mã QR điền sẵn số tiền và mã hóa đơn, giúp người mua thao tác thuận tiện chỉ với một lần quét mã.
+5. Xây dựng giao diện Frontend hoàn chỉnh, hiện đại, hiển thị trực quan thông tin sản phẩm và phân hệ quản trị Dashboard trực quan hóa dữ liệu bằng Chart.js.
+6. Thực hiện kiểm thử toàn diện 15 kịch bản kiểm thử (Test Cases), đảm bảo hệ thống vận hành ổn định, dữ liệu nhất quán và an toàn trước các nguy cơ tấn công bảo mật thông thường.
+
+6.2. NHỮNG HẠN CHẾ CÒN TỒN TẠI
+Bên cạnh những thành quả đã đạt được, hệ thống vẫn còn một số điểm hạn chế do giới hạn về mặt thời gian và nguồn lực nghiên cứu:
+- Chưa tích hợp dịch vụ IPN (Instant Payment Notification) từ cổng ngân hàng để tự động chuyển trạng thái đơn hàng sang "ĐÃ THANH TOÁN" ngay sau khi khách hàng chuyển tiền (hiện tại Admin vẫn phải bấm xác nhận đối soát).
+- Chưa tích hợp hệ thống gửi Email thông báo tự động (Spring Mail) để gửi hóa đơn điện tử và thông báo cập nhật tiến trình đơn hàng vào hòm thư của khách hàng.
+- Hệ thống tìm kiếm sản phẩm hiện tại sử dụng câu lệnh SQL LIKE '%keyword%', chưa ứng dụng công cụ tìm kiếm toàn văn nâng cao (Full-Text Search) như Elasticsearch hay Apache Solr khi số lượng sản phẩm lên đến hàng triệu mặt hàng.
+
+6.3. ĐỊNH HƯỚNG MỞ RỘNG VÀ PHÁT TRIỂN ĐỀ TÀI TRONG TƯƠNG LAI
+Nhằm phát triển SiSiTechStore trở thành một nền tảng thương mại điện tử cấp doanh nghiệp thực thụ, các hướng nghiên cứu và nâng cấp tiếp theo bao gồm:
+1. Tích hợp Webhook / IPN tự động từ ngân hàng và mở rộng thêm các cổng ví điện tử phổ biến tại Việt Nam như VNPay, MoMo, ZaloPay.
+2. Ứng dụng Redis Caching để lưu trữ tạm các thông tin danh mục, sản phẩm nổi bật và thông tin giỏ hàng, giúp giảm tải tối đa cho CSDL MySQL và tăng tốc độ phản hồi trang web xuống dưới 100ms.
+3. Tích hợp tính năng gợi ý sản phẩm thông minh (Recommendation System) dựa trên trí tuệ nhân tạo (AI / Machine Learning) để đề xuất các sản phẩm công nghệ phù hợp với sở thích và thói quen mua sắm của từng khách hàng.
+4. Tái cấu trúc hệ thống theo kiến trúc Microservices kết hợp Spring Cloud và Docker Containerization để sẵn sàng triển khai trên các nền tảng điện toán đám mây (AWS, Google Cloud, Azure).
+
+
+================================================================================
+TÀI LIỆU THAM KHẢO
+================================================================================
+1. Craig Walls (2022), Spring in Action, Sixth Edition, Manning Publications, USA.
+2. Christian Bauer, Gavin King, Gary Gregory (2015), Java Persistence with Hibernate, Second Edition, Manning Publications, USA.
+3. Laurentiu Spilca (2021), Spring Security in Action, Manning Publications, USA.
+4. Roy Thomas Fielding (2000), Architectural Styles and the Design of Network-based Software Architectures, Doctoral Dissertation, University of California, Irvine.
+5. Oracle Corporation (2023), Java Platform, Standard Edition Documentation (JDK 17 LTS), https://docs.oracle.com/en/java/javase/17/
+6. VMware Tanzu (2024), Spring Boot Reference Documentation (Version 3.2.x), https://docs.spring.io/spring-boot/docs/current/reference/html/
+7. Napas & VietQR Standard (2023), Đặc tả kỹ thuật mã phản hồi nhanh trong thanh toán Napas247, https://vietqr.net/
+8. OWASP Foundation (2021), OWASP Top 10 Web Application Security Risks, https://owasp.org/www-project-top-ten/
+================================================================================
+HẾT BÁO CÁO
+================================================================================

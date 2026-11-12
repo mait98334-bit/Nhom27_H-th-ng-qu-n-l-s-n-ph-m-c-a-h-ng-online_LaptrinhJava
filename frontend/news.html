@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tin Tức & Đánh Giá Công Nghệ - SiSi Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .news-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+      background: white;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+    .news-cat-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .news-cat-pill {
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      color: #475569;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .news-cat-pill:hover, .news-cat-pill.active {
+      background: #fee2e2;
+      border-color: #ef4444;
+      color: #dc2626;
+      font-weight: 700;
+    }
+    .news-search-input {
+      padding: 7px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      width: 250px;
+      outline: none;
+    }
+    .news-search-input:focus {
+      border-color: var(--primary-color);
+    }
+
+    /* GRID CÁC BÀI VIẾT DẠNG Ô VUÔNG NHỎ / CARD GỌN GÀNG */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+    .news-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none !important;
+      color: inherit;
+      height: 100%;
+    }
+    .news-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.09);
+      border-color: #cbd5e1;
+    }
+    .news-img-wrap {
+      width: 100%;
+      height: 185px;
+      overflow: hidden;
+      position: relative;
+      background: #f1f5f9;
+    }
+    .news-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .news-card:hover .news-img {
+      transform: scale(1.05);
+    }
+    .news-body {
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .news-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #dc2626;
+      background: #fee2e2;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      width: fit-content;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .news-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.42;
+      margin: 0 0 0.5rem 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: color 0.2s;
+    }
+    .news-card:hover .news-title {
+      color: #2563eb;
+    }
+    .news-excerpt {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0 0 1rem 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+    .news-meta-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px dashed #f1f5f9;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">SISI</span>
+        <span class="brand-text-wrap">
+          <span class="brand-name">TECH<span>STORE</span></span>
+          <span class="brand-tag">Online Retail</span>
+        </span>
+      </a>
+
+      <!-- MENU ĐIỀU HƯỚNG CHÍNH -->
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Trang chủ</span>
+        </a>
+        
+        <div class="nav-dropdown">
+          <a href="products.html" class="nav-link">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Sản phẩm</span>
+            <svg class="nav-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+          <div class="mega-menu-dropdown"></div>
+        </div>
+
+        <a href="news.html" class="nav-link active">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+          <span>Tin công nghệ</span>
+        </a>
+        <a href="contact.html" class="nav-link">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>Liên hệ</span>
+        </a>
+      </nav>
+
+      <div class="search-bar">
+        <svg class="search-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Bạn cần tìm điện thoại, laptop, phụ kiện gì..." onkeydown="if(event.key==='Enter') window.location.href='products.html?q='+encodeURIComponent(this.value.trim())">
+      </div>
+
+      <div class="nav-actions">
+        <a href="orders.html" class="nav-btn nav-btn-outline" style="border: 1px solid var(--border-color); color: var(--text-main); display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <span>Tra cứu đơn</span>
+        </a>
+        <a href="checkout.html" class="cart-btn-nav" style="text-decoration: none;" title="Xem giỏ hàng & thanh toán">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span>Giỏ hàng</span>
+          <span class="cart-count-badge" style="display: none;">0</span>
+        </a>
+        <div id="navbar-auth"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container" style="padding: 2rem 1rem 4rem;">
+    <div>
+      <h1 style="font-size: 1.85rem; font-weight: 800; color: #1e293b; margin: 0;">Tin Tức &amp; Đánh Giá Công Nghệ</h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.4rem;">
+        Cập nhật liên tục các bài đánh giá thiết bị, xu hướng thị trường và cẩm nang công nghệ từ SiSi Shop.
+      </p>
+    </div>
+
+    <!-- FILTER & SEARCH BAR -->
+    <div class="news-filter-bar">
+      <div class="news-cat-pills" id="newsCatPills">
+        <button class="news-cat-pill active" onclick="filterNewsCategory('all', this)">Tất cả</button>
+        <button class="news-cat-pill" onclick="filterNewsCategory('Đánh giá công nghệ', this)">Đánh giá thiết bị</button>
+        <button class="news-cat-pill" onclick="filterNewsCategory('So sánh công nghệ', this)">So sánh sản phẩm</button>
+        <button class="news-cat-pill" onclick="filterNewsCategory('Tư vấn mua sắm', this)">Tư vấn mua sắm</button>
+        <button class="news-cat-pill" onclick="filterNewsCategory('Thủ thuật công nghệ', this)">Mẹo &amp; Thủ thuật</button>
+      </div>
+
+      <div>
+        <input type="text" id="newsSearchInput" class="news-search-input" placeholder="Tìm kiếm bài viết..." oninput="handleSearchNews(this.value)">
+      </div>
+    </div>
+
+    <!-- DYNAMIC NEWS GRID -->
+    <div class="news-grid" id="newsGridContainer">
+      <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
+        Đang tải danh sách bài viết từ hệ thống...
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="footer-title">Hệ Thống Quản Lý Sản Phẩm Cửa Hàng Online</div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+          Trang tin tức & đánh giá sản phẩm chính hãng trực thuộc SiSi Shop. Đồ án môn Lập trình Java.
+        </p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Liên Hệ Ban Biên Tập</div>
+        <div class="footer-links">
+          <span>📧 Email: <a href="mailto:mait98334@gmail.com" style="color:var(--primary-color);">mait98334@gmail.com</a></span>
+          <span>📞 Hotline hỗ trợ: 1800 2097</span>
+          <span>📍 Địa chỉ: Hà Nội, Việt Nam</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Chuyên Mục Quan Tâm</div>
+        <div class="footer-links">
+          <a href="news.html?cat=review">Đánh giá Smartphone mới</a>
+          <a href="news.html?cat=compare">So sánh Laptop mỏng nhẹ</a>
+          <a href="news.html?cat=tips">Thủ thuật đồng hồ thông minh</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 SiSi Shop - Hệ thống quản lý sản phẩm cửa hàng online. Thực hiện bởi Mai Thị Trang.
+    </div>
+  </footer>
+
+  <div id="toast"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/mega-menu.js"></script>
+  <script src="js/news.js"></script>
+</body>
+</html>

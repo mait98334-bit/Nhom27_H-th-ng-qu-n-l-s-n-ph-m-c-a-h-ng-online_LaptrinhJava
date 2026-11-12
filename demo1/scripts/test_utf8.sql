@@ -1,0 +1,1 @@
+SET NAMES utf8mb4; UPDATE products SET colors = 'Đen Cổ Điển, Kem Vintage, Nâu Đất' WHERE id = 80;

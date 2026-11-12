@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ Thống Quản Lý Sản Phẩm Cửa Hàng Online — SiSi Shop</title>
+  <link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">SISI</span>
+        <span class="brand-text-wrap">
+          <span class="brand-name">TECH<span>STORE</span></span>
+          <span class="brand-tag">Online Retail</span>
+        </span>
+      </a>
+
+      <!-- MENU ĐIỀU HƯỚNG CHÍNH -->
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link active">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Trang chủ</span>
+        </a>
+        
+        <div class="nav-dropdown">
+          <a href="products.html" class="nav-link">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Sản phẩm</span>
+            <svg class="nav-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+          <div class="mega-menu-dropdown"></div>
+        </div>
+
+        <a href="news.html" class="nav-link">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+          <span>Tin công nghệ</span>
+        </a>
+        <a href="contact.html" class="nav-link">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>Liên hệ</span>
+        </a>
+      </nav>
+
+      <div class="search-bar">
+        <svg class="search-icon" id="searchIconBtn" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="Nhấp để tìm kiếm"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Bạn cần tìm điện thoại, laptop, phụ kiện gì..." autocomplete="off">
+        <button type="button" class="search-clear-btn" id="searchClearBtn" title="Xóa từ khóa">&times;</button>
+        <div class="search-dropdown" id="searchDropdown"></div>
+      </div>
+
+      <div class="nav-actions">
+        <a href="orders.html" class="nav-btn nav-btn-outline" style="border: 1px solid var(--border-color); color: var(--text-main); display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <span>Tra cứu đơn</span>
+        </a>
+        <a href="checkout.html" class="cart-btn-nav" style="text-decoration: none;" title="Xem giỏ hàng & thanh toán">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span>Giỏ hàng</span>
+          <span class="cart-count-badge" style="display: none;">0</span>
+        </a>
+        <div id="navbar-auth">
+          <a href="login.html?tab=register" class="nav-btn" style="border: 1px solid var(--border-color); color: var(--text-main);">Đăng ký</a>
+          <a href="login.html?tab=login" class="nav-btn nav-btn-primary">Đăng nhập</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container">
+    
+    <!-- 1. HERO SECTION & PROMO BANNERS -->
+    <section class="home-hero-wrap">
+      <!-- MAIN BANNER CAROUSEL / HIGHLIGHT -->
+      <div class="home-main-banner">
+        <div>
+          <div class="home-hero-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>LỄ HỘI CÔNG NGHỆ 2026 ● CHÍNH HÃNG 100%</span>
+          </div>
+          <h1 class="home-hero-title">
+            ĐÓN ĐẦU CÔNG NGHỆ ĐỈNH CAO<br>
+            <span>GIẢM ĐẾN 45% HÔM NAY</span>
+          </h1>
+          <p class="home-hero-desc">
+            Trải nghiệm các siêu phẩm điện thoại Flagship, Laptop AI và phụ kiện âm thanh cao cấp. Cam kết 100% hàng chính hãng, hỗ trợ trả góp 0% lãi suất, bảo hành 1 đổi 1 trong 30 ngày.
+          </p>
+          <div class="home-hero-actions">
+            <a href="products.html?filter=sale" class="hero-primary-btn">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>Săn Deal Khuyến Mãi</span>
+            </a>
+            <a href="products.html" class="hero-secondary-btn">
+              <span>Xem Tất Cả Sản Phẩm</span> &rarr;
+            </a>
+          </div>
+        </div>
+        <div class="home-hero-perks">
+          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Bảo hành 12 - 24 tháng</span>
+          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Trả góp 0% xét duyệt 5P</span>
+          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Giao hỏa tốc 2 Giờ</span>
+        </div>
+      </div>
+
+      <!-- 2 SIDE PROMO BANNERS -->
+      <div class="home-side-banners-wrap">
+        <a href="products.html?cat=4" class="home-side-banner side-banner-rose">
+          <div>
+            <span class="side-banner-tag">XẢ KHO PHỤ KIỆN</span>
+            <div class="side-banner-title">Âm Thanh & Phụ Kiện<br>Mua 1 Tặng 1</div>
+            <div class="side-banner-desc">Tai nghe chống ồn, loa Bluetooth, củ sạc nhanh 65W chính hãng.</div>
+          </div>
+          <div class="side-banner-link">Khám phá ngay &rarr;</div>
+        </a>
+
+        <a href="products.html?cat=3" class="home-side-banner side-banner-blue">
+          <div>
+            <span class="side-banner-tag">ĐẶC QUYỀN HỌC SINH - SINH VIÊN</span>
+            <div class="side-banner-title">Laptop AI & Gaming<br>Trợ Giá Đến 1.500.000₫</div>
+            <div class="side-banner-desc">Tặng kèm Balo chống sốc cao cấp & Chuột không dây gaming.</div>
+          </div>
+          <div class="side-banner-link">Xem mẫu laptop &rarr;</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. THANH CAM KẾT DỊCH VỤ (TRUST COMMITMENT BAR) -->
+    <div class="home-trust-bar">
+      <div class="trust-item">
+        <div class="trust-icon-box" style="background: #eff6ff; color: #2563eb;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="trust-item-title">100% Hàng Chính Hãng</div>
+          <div class="trust-item-sub">Bảo hành 12 - 24 tháng toàn quốc</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon-box" style="background: #f0fdf4; color: #16a34a;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <div>
+          <div class="trust-item-title">Giao Hỏa Tốc 2 Giờ</div>
+          <div class="trust-item-sub">Miễn phí ship đơn từ 500.000₫</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon-box" style="background: #fff1f2; color: #e11d48;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </div>
+        <div>
+          <div class="trust-item-title">Đổi Mới Trong 30 Ngày</div>
+          <div class="trust-item-sub">Lỗi kỹ thuật 1 đổi 1 miễn phí</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon-box" style="background: #faf5ff; color: #9333ea;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div>
+          <div class="trust-item-title">Trả Góp 0% Lãi Suất</div>
+          <div class="trust-item-sub">Thủ tục online duyệt trong 5 phút</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. KHÁM PHÁ DANH MỤC TRỰC QUAN (VISUAL CATEGORY GRID) -->
+    <section style="margin-bottom: 2.8rem;">
+      <div class="section-header" style="margin-bottom: 1.2rem;">
+        <div>
+          <h2 class="section-title" style="margin: 0;">Khám Phá Danh Mục Nổi Bật</h2>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin: 3px 0 0 0;">Lựa chọn dòng sản phẩm công nghệ bạn đang quan tâm</p>
+        </div>
+        <a href="products.html" class="nav-btn" style="border: 1px solid var(--border-color); color: #2563eb; font-weight: 700; background: white; padding: 6px 14px; border-radius: 8px; text-decoration: none !important;">
+          Tất cả sản phẩm &rarr;
+        </a>
+      </div>
+      <div class="home-cat-grid" id="categoryGrid">
+        <!-- Rendered dynamically as attractive visual cards -->
+      </div>
+    </section>
+
+    <!-- 4. DYNAMIC PRODUCT SECTIONS (SALE, HOT, NEW, BRANDS, NEWS) -->
+    <div id="productContentArea">
+      <p style="text-align: center; color: var(--text-muted); padding: 3rem 0;">
+        Đang tải danh sách sản phẩm và ưu đãi trang chủ...
+      </p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 SiSi Shop — Hệ thống quản lý sản phẩm cửa hàng online (Đồ án Java Spring Boot REST API & MySQL).</p>
+  </footer>
+
+  <div id="toast"></div>
+
+  <script src="js/config.js?v=2"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/mega-menu.js"></script>
+  <script src="js/index.js?v=2"></script>
+</body>
+</html>

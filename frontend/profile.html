@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông Tin Tài Khoản — Hệ thống quản lý sản phẩm cửa hàng online</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 860px) {
+      .profile-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .profile-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .avatar-wrap {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+    .avatar-admin {
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+    .user-stat-card {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+    }
+    .user-stat-val {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #2563eb;
+      margin-top: 0.3rem;
+    }
+    .privilege-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px dashed var(--border-color);
+      font-size: 0.92rem;
+    }
+    .privilege-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">SISI</span>
+        <span class="brand-text-wrap">
+          <span class="brand-name">TECH<span>STORE</span></span>
+          <span class="brand-tag">Online Retail</span>
+        </span>
+      </a>
+
+      <!-- MENU ĐIỀU HƯỚNG CHÍNH -->
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Trang chủ</span>
+        </a>
+        
+        <div class="nav-dropdown">
+          <a href="products.html" class="nav-link">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Sản phẩm</span>
+            <svg class="nav-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+          <div class="mega-menu-dropdown"></div>
+        </div>
+
+        <a href="news.html" class="nav-link">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+          <span>Tin công nghệ</span>
+        </a>
+        <a href="contact.html" class="nav-link">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>Liên hệ</span>
+        </a>
+      </nav>
+      <div class="nav-actions">
+        <a href="index.html" class="nav-btn nav-btn-outline" style="color: var(--text-main); font-size: 0.88rem;">&larr; Tiếp tục mua sắm</a>
+        <a href="orders.html" class="nav-btn nav-btn-outline" style="border: 1px solid var(--border-color); color: var(--text-main); font-size: 0.88rem;">Tra cứu đơn</a>
+        <div id="navbar-auth"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container" style="max-width: 1050px; padding: 2rem 1rem 4rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main);">Hồ Sơ & Tài Khoản Của Bạn</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.2rem;">Xem và cập nhật thông tin cá nhân, phân quyền tài khoản trên hệ thống.</p>
+      </div>
+      <div id="adminQuickAction"></div>
+    </div>
+
+    <div class="profile-layout">
+      <!-- SIDEBAR PROFILE CARD -->
+      <aside class="profile-card" style="text-align: center; height: fit-content;">
+        <div class="avatar-wrap" id="profileAvatar">👤</div>
+        <h2 id="profileName" style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem;">Người Dùng</h2>
+        <p id="profileEmail" style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; word-break: break-all;">email@example.com</p>
+
+        <div id="profileRoleBadge" style="margin-bottom: 1.5rem;">
+          <span class="tag-badge tag-blue">👤 CUSTOMER</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.5rem;">
+          <div class="user-stat-card">
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Đơn Hàng</div>
+            <div class="user-stat-val" id="userOrderCount">0</div>
+          </div>
+          <div class="user-stat-card">
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Đã Chi Tiêu</div>
+            <div class="user-stat-val" id="userTotalSpent" style="font-size: 1.1rem; color: #059669;">0 ₫</div>
+          </div>
+        </div>
+
+        <button onclick="logout()" class="nav-btn" style="width: 100%; background: #fee2e2; color: #dc2626; border: none; padding: 10px; font-weight: 700; border-radius: 8px; cursor: pointer;">
+          🚪 Đăng xuất tài khoản
+        </button>
+      </aside>
+
+      <!-- MAIN CONTENT TABS / FORM -->
+      <section style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <!-- EDIT PROFILE FORM -->
+        <div class="profile-card">
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.8rem;">
+            📝 Cập Nhật Thông Tin Cá Nhân
+          </h3>
+          <form id="profileForm" onsubmit="handleUpdateProfile(event)">
+            <div class="form-group">
+              <label class="form-label">Họ và tên hiển thị (*)</label>
+              <input type="text" id="inputFullName" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Địa chỉ Email</label>
+              <input type="email" id="inputEmail" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tên đăng nhập (Username)</label>
+              <input type="text" id="inputUsername" class="form-control" disabled style="background: #f1f5f9; cursor: not-allowed;">
+              <small style="color: var(--text-muted); font-size: 0.8rem;">Tên đăng nhập là định danh cố định trong cơ sở dữ liệu.</small>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phương thức xác thực</label>
+              <input type="text" id="inputAuthType" class="form-control" disabled style="background: #f1f5f9; cursor: not-allowed;">
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+              <button type="submit" class="btn-buy" id="btnSaveProfile" style="padding: 10px 24px;">
+                💾 Lưu Thay Đổi
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- PRIVILEGES OVERVIEW -->
+        <div class="profile-card">
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.8rem;">
+            🛡️ Đặc Quyền & Quyền Hạn Vai Trò
+          </h3>
+          <div id="privilegesList">
+            <!-- Dynamically populated based on role -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 SiSi Shop — Hệ thống quản lý sản phẩm cửa hàng online (Đồ án Java Spring Boot REST API & MySQL).</p>
+  </footer>
+
+  <div id="toast"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/mega-menu.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

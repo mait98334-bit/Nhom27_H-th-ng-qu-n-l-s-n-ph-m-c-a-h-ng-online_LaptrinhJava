@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết Bài Viết - SiSi Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .article-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2.5rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 992px) {
+      .article-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .article-header {
+      margin-bottom: 2rem;
+    }
+    .article-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.35;
+      margin: 0.8rem 0 1rem;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .article-featured-img {
+      width: 100%;
+      max-height: 480px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 1.5rem 0 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .article-content {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #334155;
+    }
+    .article-content h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 2rem 0 0.8rem;
+    }
+    .article-content p {
+      margin-bottom: 1.25rem;
+    }
+    .article-content .lead {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #1e293b;
+      line-height: 1.7;
+    }
+    .article-content blockquote {
+      border-left: 4px solid var(--primary-color);
+      padding: 1rem 1.5rem;
+      margin: 1.8rem 0;
+      background: #eff6ff;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: #1e40af;
+      font-weight: 500;
+    }
+    /* COMMENTS SECTION */
+    .comments-container {
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 2px solid var(--border-color);
+    }
+    .comment-card {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .comment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .comment-author-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .comment-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #475569;
+    }
+    /* SIDEBAR */
+    .sidebar-widget {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .widget-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid #ef4444;
+      display: inline-block;
+    }
+    .side-post-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed #f1f5f9;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s;
+    }
+    .side-post-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .side-post-item:hover {
+      transform: translateX(4px);
+    }
+    .side-post-thumb {
+      width: 75px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .side-post-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #1e293b;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">SISI</span>
+        <span class="brand-text-wrap">
+          <span class="brand-name">TECH<span>STORE</span></span>
+          <span class="brand-tag">Online Retail</span>
+        </span>
+      </a>
+
+      <!-- MENU ĐIỀU HƯỚNG CHÍNH -->
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Trang chủ</span>
+        </a>
+        
+        <div class="nav-dropdown">
+          <a href="products.html" class="nav-link">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Sản phẩm</span>
+            <svg class="nav-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+          <div class="mega-menu-dropdown"></div>
+        </div>
+
+        <a href="news.html" class="nav-link active">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+          <span>Tin công nghệ</span>
+        </a>
+        <a href="contact.html" class="nav-link">
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>Liên hệ</span>
+        </a>
+      </nav>
+
+      <div class="search-bar">
+        <svg class="search-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Bạn cần tìm điện thoại, laptop, phụ kiện gì..." onkeydown="if(event.key==='Enter') window.location.href='products.html?q='+encodeURIComponent(this.value.trim())">
+      </div>
+
+      <div class="nav-actions">
+        <a href="orders.html" class="nav-btn nav-btn-outline" style="border: 1px solid var(--border-color); color: var(--text-main); display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <span>Tra cứu đơn</span>
+        </a>
+        <a href="checkout.html" class="cart-btn-nav" style="text-decoration: none;" title="Xem giỏ hàng & thanh toán">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span>Giỏ hàng</span>
+          <span class="cart-count-badge" style="display: none;">0</span>
+        </a>
+        <div id="navbar-auth"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container" style="padding: 2rem 1rem 4rem;">
+    
+    <!-- BREADCRUMB -->
+    <nav class="breadcrumb">
+      <a href="index.html">Trang chủ</a> &gt;
+      <a href="news.html">Tin tức</a> &gt;
+      <span id="breadcrumbTitle" style="color: var(--text-main); font-weight: 500;">Chi tiết bài viết</span>
+    </nav>
+
+    <!-- ARTICLE LAYOUT (2 CỘT) -->
+    <div class="article-layout">
+      
+      <!-- CỘT CHÍNH: NỘI DUNG BÀI VIẾT & BÌNH LUẬN -->
+      <article>
+        <div class="article-header">
+          <span id="articleCategory" class="news-tag" style="background:#fee2e2; color:#dc2626; font-size:0.8rem; font-weight:700; padding:4px 10px; border-radius:6px;">
+            ĐANG TẢI...
+          </span>
+          <h1 id="articleTitle" class="article-title">Đang tải bài viết...</h1>
+          
+          <div class="article-meta">
+            <span id="articleAuthor">✍️ Tác giả</span>
+            <span id="articleDate">📅 Ngày đăng</span>
+            <span id="articleViews">👁️ 0 lượt xem</span>
+            <span id="articleCommentsCount">💬 0 bình luận</span>
+            <span style="margin-left:auto; color:#2563eb; font-weight:600;">⏱️ 3 phút đọc</span>
+          </div>
+        </div>
+
+        <img id="articleThumbnail" src="" alt="Thumbnail" class="article-featured-img" style="display:none;">
+
+        <!-- TÓM TẮT & NỘI DUNG -->
+        <div id="articleSummary" style="font-weight:600; font-size:1.15rem; color:#1e293b; line-height:1.7; margin-bottom:1.5rem; background:#f8fafc; padding:1.2rem 1.5rem; border-left:4px solid #ef4444; border-radius:4px;"></div>
+        
+        <div id="articleContent" class="article-content">
+          <p style="text-align:center; padding:3rem 0; color:var(--text-muted);">Đang tải toàn bộ nội dung bài viết...</p>
+        </div>
+
+        <!-- TÁC GIẢ BOX -->
+        <div style="margin-top:3rem; padding:1.5rem; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; gap:1.2rem;">
+          <div style="width:56px; height:56px; border-radius:50%; background:#2563eb; color:white; display:flex; align-items:center; justify-content:center; font-size:1.6rem; font-weight:700;">
+            ✍️
+          </div>
+          <div>
+            <div id="authorBoxName" style="font-weight:700; font-size:1.1rem; color:#1e293b;">Ban Biên Tập SiSi Tech</div>
+            <div style="color:var(--text-muted); font-size:0.88rem; margin-top:2px;">
+              Chuyên trang tin tức, phân tích chuyên sâu các sản phẩm công nghệ và thiết bị chính hãng tại SiSi Shop.
+            </div>
+          </div>
+        </div>
+
+        <!-- PHẦN BÌNH LUẬN BÀI VIẾT -->
+        <section class="comments-container" id="commentsSection">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+            <h3 style="font-size:1.4rem; font-weight:800; color:#1e293b; margin:0;">
+              💬 Bình luận bài viết (<span id="commentsCountBadge">0</span>)
+            </h3>
+          </div>
+
+          <!-- FORM GỬI BÌNH LUẬN -->
+          <div style="background:white; border:1px solid var(--border-color); border-radius:12px; padding:1.5rem; margin-bottom:2rem; box-shadow:var(--shadow-sm);">
+            <h4 style="margin:0 0 1rem; font-size:1.05rem; font-weight:700; color:#1e293b;">Gửi ý kiến của bạn về bài viết này:</h4>
+            <form id="commentForm" onsubmit="handleSendComment(event)">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                <div>
+                  <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;">Họ tên của bạn *</label>
+                  <input type="text" id="commentAuthor" class="form-control" style="width:100%;" required placeholder="Nhập họ và tên...">
+                </div>
+                <div>
+                  <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;">Email liên hệ (nếu có)</label>
+                  <input type="email" id="commentEmail" class="form-control" style="width:100%;" placeholder="example@gmail.com">
+                </div>
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;">Nội dung bình luận *</label>
+                <textarea id="commentContent" class="form-control" style="width:100%; min-height:90px;" required placeholder="Chia sẻ suy nghĩ hoặc câu hỏi của bạn về bài viết..."></textarea>
+              </div>
+              <button type="submit" id="btnSubmitComment" class="btn-buy" style="padding:10px 24px; font-weight:700; border-radius:8px;">
+                Gửi bình luận 💬
+              </button>
+            </form>
+          </div>
+
+          <!-- DANH SÁCH BÌNH LUẬN ĐÃ ĐĂNG -->
+          <div id="commentsList">
+            <p style="color:var(--text-muted); text-align:center; padding:1.5rem 0;">Chưa có bình luận nào. Hãy là người đầu tiên để lại ý kiến!</p>
+          </div>
+        </section>
+
+      </article>
+
+      <!-- CỘT PHỤ (SIDEBAR): BÀI VIẾT MỚI & SẢN PHẨM LIÊN QUAN -->
+      <aside>
+        <div class="sidebar-widget">
+          <div class="widget-title">🔥 Bài Viết Mới Nhất</div>
+          <div id="recentPostsWidget">
+            <p style="color:var(--text-muted); font-size:0.85rem;">Đang tải bài viết...</p>
+          </div>
+        </div>
+
+        <div class="sidebar-widget" style="background:#eff6ff; border-color:#bfdbfe;">
+          <div style="font-size:1.8rem; margin-bottom:0.5rem;">📱</div>
+          <h4 style="margin:0 0 0.5rem; font-weight:800; color:#1e40af;">Mua Sắm Chính Hãng Tại SiSi Shop</h4>
+          <p style="font-size:0.88rem; color:#3b82f6; line-height:1.5; margin-bottom:1rem;">
+            Tất cả sản phẩm công nghệ trong bài viết đều có sẵn hàng chính hãng, hỗ trợ trả góp 0% và giao hàng miễn phí toàn quốc.
+          </p>
+          <a href="products.html" class="btn-buy" style="display:inline-block; text-align:center; width:100%; text-decoration:none; padding:9px 16px; font-weight:700; border-radius:8px;">
+            Khám phá ngay ➔
+          </a>
+        </div>
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="footer-title">Hệ Thống Quản Lý Sản Phẩm Cửa Hàng Online</div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+          Trang tin tức & đánh giá sản phẩm chính hãng trực thuộc SiSi Shop. Đồ án môn Lập trình Java.
+        </p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Liên Hệ Ban Biên Tập</div>
+        <div class="footer-links">
+          <span>📧 Email: <a href="mailto:mait98334@gmail.com" style="color:var(--primary-color);">mait98334@gmail.com</a></span>
+          <span>📞 Hotline hỗ trợ: 1800 2097</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Hỗ Trợ Bạn Đọc</div>
+        <div class="footer-links">
+          <a href="news.html">Danh mục tin tức công nghệ</a>
+          <a href="contact.html">Gửi bài viết đóng góp</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 SiSi Shop - Hệ thống quản lý sản phẩm cửa hàng online. Thực hiện bởi Mai Thị Trang.
+    </div>
+  </footer>
+
+  <div id="toast"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/mega-menu.js"></script>
+  <script src="js/news-detail.js"></script>
+</body>
+</html>

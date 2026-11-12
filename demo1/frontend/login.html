@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng Nhập & Tài Khoản — Hệ thống quản lý sản phẩm cửa hàng online</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">SISI</span>
+        <span class="brand-text-wrap">
+          <span class="brand-name">TECH<span>STORE</span></span>
+          <span class="brand-tag">Online Retail</span>
+        </span>
+      </a>
+      <div class="nav-actions">
+        <a href="index.html" class="nav-btn" style="color: var(--text-muted);">← Quay lại trang chủ</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- AUTH FORM -->
+  <main class="container">
+    <div class="auth-wrapper">
+      <div class="auth-header">
+        <h2 id="authTitle">Đăng nhập tài khoản</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Chào mừng bạn quay trở lại với SiSi Shop</p>
+      </div>
+
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Đăng nhập</div>
+        <div class="auth-tab" id="tabRegister" onclick="switchTab('register')">Đăng ký mới</div>
+      </div>
+
+      <!-- GOOGLE OAUTH2 BUTTON -->
+      <a href="http://localhost:8080/oauth2/authorization/google" class="btn-google" id="btnGoogleLogin">
+        <svg width="20" height="20" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.15z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+        </svg>
+        <span>Đăng nhập nhanh bằng Google</span>
+      </a>
+
+      <div class="auth-divider">hoặc tài khoản nội bộ / Basic Auth</div>
+
+      <!-- FORM LOGIN -->
+      <form id="formLogin" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="loginUsername">Tên đăng nhập / Username</label>
+          <input type="text" id="loginUsername" class="form-control" placeholder="Nhập username của bạn" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Mật khẩu</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="Nhập mật khẩu" required>
+        </div>
+        <button type="submit" class="btn-submit-auth" id="btnLoginSubmit">Đăng nhập</button>
+      </form>
+
+      <!-- FORM REGISTER -->
+      <form id="formRegister" onsubmit="handleRegister(event)" style="display: none;">
+        <div class="form-group">
+          <label class="form-label" for="regUsername">Tên đăng nhập</label>
+          <input type="text" id="regUsername" class="form-control" placeholder="Ví dụ: nguyenvana" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regFullName">Họ và tên</label>
+          <input type="text" id="regFullName" class="form-control" placeholder="Ví dụ: Nguyễn Văn A" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Email</label>
+          <input type="email" id="regEmail" class="form-control" placeholder="email@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regPassword">Mật khẩu</label>
+          <input type="password" id="regPassword" class="form-control" placeholder="Mật khẩu tối thiểu 6 ký tự" required>
+        </div>
+        <button type="submit" class="btn-submit-auth" id="btnRegisterSubmit">Tạo tài khoản</button>
+      </form>
+    </div>
+  </main>
+
+  <div id="toast"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
